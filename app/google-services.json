@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "532252529474",
+    "project_id": "midterm-project-74967",
+    "storage_bucket": "midterm-project-74967.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532252529474:android:aab026a29782ba70f06edb",
+        "android_client_info": {
+          "package_name": "com.example.expenseplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "532252529474-gobn9qo7d6j1mnfkejit6bgf5nub0a0l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1VwEmanFdZC5Y2y3lj2cwCFeIzhWCevo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "532252529474-gobn9qo7d6j1mnfkejit6bgf5nub0a0l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532252529474:android:68d432919804733af06edb",
+        "android_client_info": {
+          "package_name": "com.example.shopkeeperapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "532252529474-gobn9qo7d6j1mnfkejit6bgf5nub0a0l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1VwEmanFdZC5Y2y3lj2cwCFeIzhWCevo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "532252529474-gobn9qo7d6j1mnfkejit6bgf5nub0a0l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
