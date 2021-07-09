@@ -18,6 +18,31 @@ class Repository {
 
     }
 
+    fun login(email: String, password: String): MutableLiveData<HashMap<String, String>>{
+        val operationOutput = MutableLiveData<HashMap<String, String>>()
+        mFirebaseAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(ContentValues.TAG, "signInWithEmail:success")
+                    operationOutput.value?.set("Status", "success")
+                    operationOutput.value?.set("value", mFirebaseAuth.uid.toString())
+
+
+                } else {
+                    operationOutput.value?.set("Status", "Failed")
+                    operationOutput.value?.set("value",
+                        "Operation Failed with error"+ task.exception
+                    )
+
+                }
+
+            }
+
+
+        return operationOutput
+    }
+
 
     fun register(shopKeeper: ShopKeeper, password: String): MutableLiveData<HashMap<String, String>>{
 

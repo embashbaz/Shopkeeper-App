@@ -5,18 +5,66 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.example.shopkeeperapp.R
+import com.example.shopkeeperapp.ShopKeeperApp
+import com.example.shopkeeperapp.ui.registration.RegistrationViewModel
+import com.google.android.material.textfield.TextInputLayout
 
 
 class LoginFragment : Fragment() {
 
+    lateinit var emailTl: TextInputLayout
+    lateinit var passwordTl: TextInputLayout
+    lateinit var forgotPwdBt : Button
+    lateinit var registerBt : Button
+    lateinit var loginBt : Button
 
+
+    val loginViewModel : LoginViewModel by lazy {
+        ViewModelProvider(this).get(LoginViewModel::class.java)
+    }
        override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        val view =   inflater.inflate(R.layout.fragment_login, container, false)
+            initiateView(view)
+           loginBt.setOnClickListener{
+               loginMethod()
+           }
+
+
+        return view
+    }
+
+    fun initiateView(view: View){
+        emailTl = view.findViewById(R.id.email_login)
+        passwordTl = view.findViewById(R.id.password_login)
+        forgotPwdBt = view.findViewById(R.id.forgot_password)
+        registerBt = view.findViewById(R.id.register_button)
+        loginBt = view.findViewById(R.id.login_button)
+
+
+    }
+
+    fun loginMethod(){
+        if (!emailTl.editText?.text.isNullOrEmpty() && !passwordTl.editText?.text.isNullOrEmpty() ){
+            loginViewModel.signUp(emailTl.editText?.text.toString(), passwordTl.editText?.text.toString())
+
+            loginViewModel.loginOutput.observe(viewLifecycleOwner,{
+                Toast.makeText(activity, it["status"]+": "+it["value"], Toast.LENGTH_LONG).show()
+               if(it["status"] == "success")
+                ( activity?.application as ShopKeeperApp).uId = it["value"].toString()
+            })
+        }
+
+    }
+
+    fun goToRegistrationFgmt(){
+
     }
 
 
