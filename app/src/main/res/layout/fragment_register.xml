@@ -6,218 +6,228 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.registration.RegisterFragment">
 
-   <ScrollView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
-       <androidx.constraintlayout.widget.ConstraintLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-           <ImageView
-               android:id="@+id/imageView3"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="24dp"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toTopOf="parent"
-               tools:src="@tools:sample/avatars" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-           <TextView
-               android:id="@+id/textView4"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="Sign Up"
-               android:textColor="@color/black"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign Up"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-           <com.google.android.material.textfield.TextInputLayout
-               android:id="@+id/name_register"
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="16dp"
-               android:layout_marginLeft="16dp"
-               android:layout_marginTop="8dp"
-               android:layout_marginEnd="16dp"
-               android:layout_marginRight="16dp"
-               android:hint="Name"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-               app:layout_constraintTop_toBottomOf="@+id/textView4">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/name_register"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="Name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-               <com.google.android.material.textfield.TextInputEditText
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content" />
-           </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-           <com.google.android.material.textfield.TextInputLayout
-               android:id="@+id/email_register"
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="16dp"
-               android:layout_marginLeft="16dp"
-               android:layout_marginTop="8dp"
-               android:layout_marginEnd="16dp"
-               android:layout_marginRight="16dp"
-               android:hint="Email"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-               app:layout_constraintTop_toBottomOf="@+id/name_register">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email_register"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="Email"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name_register">
 
-               <com.google.android.material.textfield.TextInputEditText
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content" />
-           </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-           <com.google.android.material.textfield.TextInputLayout
-               android:id="@+id/phone_register"
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="16dp"
-               android:layout_marginLeft="16dp"
-               android:layout_marginTop="8dp"
-               android:layout_marginEnd="16dp"
-               android:layout_marginRight="16dp"
-               android:hint="Phone number"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-               app:layout_constraintTop_toBottomOf="@+id/email_register">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phone_register"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="Phone number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email_register">
 
-               <com.google.android.material.textfield.TextInputEditText
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:inputType="phone" />
-           </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-           <com.google.android.material.textfield.TextInputLayout
-               android:id="@+id/password_register"
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="16dp"
-               android:layout_marginLeft="16dp"
-               android:layout_marginTop="8dp"
-               android:layout_marginEnd="16dp"
-               android:layout_marginRight="16dp"
-               android:hint="Password"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-               app:layout_constraintTop_toBottomOf="@+id/phone_register"
-               app:passwordToggleEnabled="true">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_register"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="Password"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phone_register"
+                app:passwordToggleEnabled="true">
 
-               <com.google.android.material.textfield.TextInputEditText
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:inputType="textPassword" />
-           </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-           <com.google.android.material.textfield.TextInputLayout
-               android:id="@+id/confirm_password"
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="16dp"
-               android:layout_marginLeft="16dp"
-               android:layout_marginTop="8dp"
-               android:layout_marginEnd="16dp"
-               android:layout_marginRight="16dp"
-               android:hint="Confirm Password"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-               app:layout_constraintTop_toBottomOf="@id/password_register"
-               app:passwordToggleEnabled="true">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/confirm_password"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="Confirm Password"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/password_register"
+                app:passwordToggleEnabled="true">
 
-               <com.google.android.material.textfield.TextInputEditText
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:inputType="textPassword" />
-           </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-           <TextView
-               android:id="@+id/get_coordinate_txt"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="16dp"
-               android:layout_marginLeft="16dp"
-               android:layout_marginTop="8dp"
-               android:layout_marginEnd="16dp"
-               android:layout_marginRight="16dp"
-               android:text="If you are at your shop location, enable GPS and click on this text to get the coordinate"
-               android:textColor="#433B3B"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintHorizontal_bias="0.0"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toBottomOf="@+id/confirm_password" />
+            <TextView
+                android:id="@+id/get_coordinate_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:text="If you are at your shop location, enable GPS and click on this text to get the coordinate"
+                android:textColor="#433B3B"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/city_adress" />
 
-           <com.google.android.material.textfield.TextInputLayout
-               android:id="@+id/coordinate_register"
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="16dp"
-               android:layout_marginLeft="16dp"
-               android:layout_marginTop="8dp"
-               android:layout_marginEnd="16dp"
-               android:layout_marginRight="16dp"
-               android:hint="Coordinate(0.0,0.0)"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-               app:layout_constraintTop_toBottomOf="@+id/get_coordinate_txt">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/description_tl"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="More about the shop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/get_coordinate_txt">
 
-               <com.google.android.material.textfield.TextInputEditText
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content" />
-           </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-           <com.google.android.material.textfield.TextInputLayout
-               android:id="@+id/area_business"
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="16dp"
-               android:layout_marginLeft="16dp"
-               android:layout_marginTop="8dp"
-               android:layout_marginEnd="16dp"
-               android:layout_marginRight="16dp"
-               android:hint="Business domain"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-               app:layout_constraintTop_toBottomOf="@+id/coordinate_register">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/area_business"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:hint="Business domain"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description_tl">
 
-               <com.google.android.material.textfield.TextInputEditText
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:inputType="text" />
-           </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-           <Button
-               android:id="@+id/register_button"
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_marginStart="16dp"
-               android:layout_marginLeft="16dp"
-               android:layout_marginTop="24dp"
-               android:layout_marginEnd="16dp"
-               android:layout_marginRight="16dp"
-               android:layout_marginBottom="24dp"
-               android:insetBottom="0dp"
-               android:text="Register"
-               app:cornerRadius="0dp"
-               app:layout_constraintBottom_toBottomOf="parent"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toBottomOf="@+id/area_business" />
+            <Button
+                android:id="@+id/register_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="24dp"
+                android:insetBottom="0dp"
+                android:text="Register"
+                app:cornerRadius="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/area_business" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/city_adress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:hint="City/County"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/confirm_password">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-       </androidx.constraintlayout.widget.ConstraintLayout>
-
-   </ScrollView>
+    </ScrollView>
 
 </LinearLayout>
