@@ -72,7 +72,7 @@
         android:layout_marginRight="8dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="QR code"
-        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintEnd_toStartOf="@+id/scan_qr_bt"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_description_tl">
 
@@ -127,7 +127,7 @@
         tools:src="@tools:sample/avatars" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/scan_qr_bt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -149,7 +149,7 @@
         app:layout_constraintEnd_toEndOf="@+id/product_image" />
 
     <Button
-        android:id="@+id/save_product_tl"
+        android:id="@+id/save_product_bt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -177,6 +177,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save_product_tl" />
+        app:layout_constraintTop_toBottomOf="@+id/save_product_bt" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
