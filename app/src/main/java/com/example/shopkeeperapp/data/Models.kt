@@ -15,3 +15,14 @@ data class ShopKeeper(
 
 )
 
+data class ShopProduct(
+    val docId: String,
+    val productName: String,
+    val productQrCode: Long,
+    val price: Double,
+    val itemQuantity: Double,
+    val imageUrl: String
+
+
+)
+
