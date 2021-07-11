@@ -1,20 +1,27 @@
 package com.example.shopkeeperapp.data
 
 import android.content.ContentValues
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import java.io.ByteArrayOutputStream
+import com.google.firebase.storage.ktx.component1
+import com.google.firebase.storage.ktx.component2
 
 class Repository {
 
     var mFirebaseAuth: FirebaseAuth
     var mFirebaseDb : FirebaseFirestore
+    var mFirebaseStore: FirebaseStorage
 
     init {
         mFirebaseAuth = FirebaseAuth.getInstance()
         mFirebaseDb = FirebaseFirestore.getInstance()
+        mFirebaseStore = FirebaseStorage.getInstance()
 
     }
 
@@ -85,5 +92,42 @@ class Repository {
 
         return operationOutput
 
+    }
+
+    fun uploadImage (mBitmap: Bitmap, uId: String, picName:String): MutableLiveData<HashMap<String, String>>{
+        val operationOutput = MutableLiveData<HashMap<String, String>>()
+
+        val imageRef = mFirebaseStore.reference.child(uId+"/"+picName+".jpg")
+
+        val bitmap = mBitmap
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        var uploadTask = imageRef.putBytes(data)
+        uploadTask.addOnFailureListener {
+            operationOutput.value?.set("Status", "Failed")
+            operationOutput.value?.set("value",
+                "Operation Failed with error"+ it.toString()
+            )
+
+        }.addOnProgressListener { (bytesTransferred, totalByteCount) ->
+            val progress = (100.0 * bytesTransferred) / totalByteCount
+            if(progress == 100.0){
+
+                operationOutput.value?.set("Status", "Operation finished")
+                operationOutput.value?.set("value", imageRef.downloadUrl.toString()
+
+                )
+
+            }else{
+                operationOutput.value?.set("Status", "Operation finished")
+                operationOutput.value?.set("value","Upload is $progress% done" )
+
+            }
+        }
+
+
+    return operationOutput
     }
 }
