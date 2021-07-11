@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.shopkeeperapp.R
@@ -36,6 +37,7 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
     var imageBitmap: Bitmap? = null
 
     val REQUEST_IMAGE_CAPTURE = 1
+    var imageUrl = ""
 
     val productDetailsViewModel: ProductDetailsViewModel by lazy {
         ViewModelProvider(this).get(ProductDetailsViewModel::class.java)
@@ -47,11 +49,28 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_product_detail, container, false)
+        bindViews(view)
+
+        productImage.setOnClickListener{
+            dispatchTakePictureIntent()
+        }
+
+        checkImageUploadStatus()
 
 
 
         return  view
 
+    }
+
+    private fun checkImageUploadStatus() {
+            productDetailsViewModel.pictureUploadOutput.observe(viewLifecycleOwner,{
+                Toast.makeText(activity, it["status"] +" with value "+ it["value"], Toast.LENGTH_SHORT).show()
+                if(it["status"].equals("Operation finished")){
+                    imageUrl = it["value"].toString()
+                }
+
+            })
     }
 
     private fun bindViews(view: View){

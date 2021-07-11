@@ -130,4 +130,24 @@ class Repository {
 
     return operationOutput
     }
+
+    fun saveNewProduct(shopProduct: ShopProduct): MutableLiveData<HashMap<String, String>>{
+        val operationOutput = MutableLiveData<HashMap<String, String>>()
+
+        mFirebaseDb.collection("shopProduct").add(shopProduct)
+            .addOnSuccessListener {
+                Log.d(ContentValues.TAG, "DocumentSnapshot written")
+                operationOutput.value?.set("Status", "Success")
+                operationOutput.value?.set("value","Record added" )
+
+            }
+            .addOnFailureListener { e ->
+                Log.w(ContentValues.TAG, "Error adding document", e)
+                operationOutput.value?.set("Status", "Failed")
+                operationOutput.value?.set("value",e.toString() )
+            }
+
+
+        return operationOutput
+    }
 }
