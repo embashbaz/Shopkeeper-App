@@ -18,8 +18,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.shopkeeperapp.R
 import com.example.shopkeeperapp.ShopKeeperApp
+import com.example.shopkeeperapp.data.ShopProduct
 import com.example.shopkeeperapp.ui.dialog.NoticeDialogFragment
-import com.example.shopkeeperapp.ui.login.LoginViewModel
 import com.google.android.material.textfield.TextInputLayout
 
 
@@ -35,6 +35,7 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
     lateinit var saveProductBt : Button
     lateinit var ignoreProductBt : Button
     var imageBitmap: Bitmap? = null
+    var uploadingImage = false
 
     val REQUEST_IMAGE_CAPTURE = 1
     var imageUrl = ""
@@ -42,6 +43,8 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
     val productDetailsViewModel: ProductDetailsViewModel by lazy {
         ViewModelProvider(this).get(ProductDetailsViewModel::class.java)
     }
+
+    val uId : String by lazy {  ( activity?.application as ShopKeeperApp).uId }
 
 
     override fun onCreateView(
@@ -57,8 +60,6 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
 
         checkImageUploadStatus()
 
-
-
         return  view
 
     }
@@ -68,6 +69,9 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
                 Toast.makeText(activity, it["status"] +" with value "+ it["value"], Toast.LENGTH_SHORT).show()
                 if(it["status"].equals("Operation finished")){
                     imageUrl = it["value"].toString()
+                    uploadingImage = false
+                }else if(it["status"].equals("Operation in progress")){
+                    uploadingImage = true
                 }
 
             })
@@ -76,8 +80,8 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
     private fun bindViews(view: View){
        productNameTl = view.findViewById(R.id.product_name_tl)
         productDescriptionTl = view.findViewById(R.id.product_description_tl)
-        productPriceTl = view.findViewById(R.id.product_code_tl)
-        productQrTl = view.findViewById(R.id.product_price_tl)
+        productPriceTl = view.findViewById(R.id.product_price_tl)
+        productQrTl = view.findViewById(R.id.product_code_tl)
         getNumberItemTxt = view.findViewById(R.id.set_number_item)
         productImage = view.findViewById(R.id.product_image)
         scanBarCodeBt = view.findViewById(R.id.scan_qr_bt)
@@ -114,7 +118,7 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
     }
 
     fun savePicture(){
-        val uId = ( activity?.application as ShopKeeperApp).uId
+
         var picName: String
         if(!productQrTl.editText?.text.isNullOrEmpty())
             picName = productQrTl.editText?.text.toString()
@@ -130,6 +134,34 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
 
     override fun onDialogNegativeClick(dialog: DialogFragment) {
         dialog.dismiss()
+    }
+
+    private fun saveNewProduct(){
+        if (checkMandatoryFields()) {
+            if (!uploadingImage) {
+                val shopProduct = ShopProduct(
+                    "",
+                    productNameTl.editText?.text.toString(),
+                    productQrTl.editText?.text.toString().toLong(),
+                    productPriceTl.editText?.text.toString().toDouble(),
+                    10.0,
+                    imageUrl,
+                    productDescriptionTl.editText?.text.toString()
+                )
+                productDetailsViewModel.saveNewProduct(shopProduct, uId)
+
+            }else{
+                Toast.makeText(activity, "Wait for image upload to finish", Toast.LENGTH_LONG).show()
+            }
+        }else{
+            Toast.makeText(activity, "Make sure that the you have given " +
+                    "a product name price and quantity in store", Toast.LENGTH_LONG).show()
+        }
+
+    }
+
+    private fun checkMandatoryFields(): Boolean{
+        return !productNameTl.editText?.text.isNullOrEmpty() && !productPriceTl.editText?.text.isNullOrEmpty()
     }
 
 

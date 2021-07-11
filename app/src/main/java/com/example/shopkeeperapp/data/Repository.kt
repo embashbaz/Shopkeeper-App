@@ -3,7 +3,6 @@ package com.example.shopkeeperapp.data
 import android.content.ContentValues
 import android.graphics.Bitmap
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -121,7 +120,7 @@ class Repository {
                 )
 
             }else{
-                operationOutput.value?.set("Status", "Operation finished")
+                operationOutput.value?.set("Status", "Operation in progress")
                 operationOutput.value?.set("value","Upload is $progress% done" )
 
             }
@@ -131,7 +130,7 @@ class Repository {
     return operationOutput
     }
 
-    fun saveNewProduct(shopProduct: ShopProduct): MutableLiveData<HashMap<String, String>>{
+    fun saveNewProduct(shopProduct: ShopProduct, uId: String): MutableLiveData<HashMap<String, String>>{
         val operationOutput = MutableLiveData<HashMap<String, String>>()
 
         mFirebaseDb.collection("shopProduct").add(shopProduct)

@@ -25,8 +25,8 @@ class ProductDetailsViewModel: ViewModel() {
 
     }
 
-    fun saveNewProduct(shopProduct: ShopProduct){
-        _addingProductOutput = repository.saveNewProduct(shopProduct)
+    fun saveNewProduct(shopProduct: ShopProduct, uId: String){
+        _addingProductOutput = repository.saveNewProduct(shopProduct, uId)
     }
 
 

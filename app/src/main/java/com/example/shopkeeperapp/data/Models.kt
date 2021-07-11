@@ -21,7 +21,8 @@ data class ShopProduct(
     val productQrCode: Long,
     val price: Double,
     val itemQuantity: Double,
-    val imageUrl: String
+    val imageUrl: String,
+    val description: String
 
 
 )
