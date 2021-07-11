@@ -23,7 +23,7 @@ import com.example.shopkeeperapp.ui.dialog.NoticeDialogFragment
 import com.google.android.material.textfield.TextInputLayout
 
 
-class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener  {
+class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener, ItemsQuantityDialog.ItemsQuantityDialogListener  {
 
     lateinit var productNameTl: TextInputLayout
     lateinit var productDescriptionTl: TextInputLayout
@@ -36,6 +36,10 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
     lateinit var ignoreProductBt : Button
     var imageBitmap: Bitmap? = null
     var uploadingImage = false
+
+    var unitPrice = 0.0
+    var totalPrice = 0.0
+    var numberItems = 0.0
 
     val REQUEST_IMAGE_CAPTURE = 1
     var imageUrl = ""
@@ -132,6 +136,12 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
         savePicture()
     }
 
+    override fun onDialogPositiveClick(itemNumber: Double, unitPrices: Double, totalPrices: Double) {
+        unitPrice = unitPrices
+        totalPrice = totalPrices
+        numberItems = itemNumber
+    }
+
     override fun onDialogNegativeClick(dialog: DialogFragment) {
         dialog.dismiss()
     }
@@ -144,7 +154,7 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
                     productNameTl.editText?.text.toString(),
                     productQrTl.editText?.text.toString().toLong(),
                     productPriceTl.editText?.text.toString().toDouble(),
-                    10.0,
+                    numberItems,
                     imageUrl,
                     productDescriptionTl.editText?.text.toString()
                 )
