@@ -23,6 +23,7 @@ class LoginFragment : Fragment() {
     lateinit var loginBt : Button
 
 
+
     val loginViewModel : LoginViewModel by lazy {
         ViewModelProvider(this).get(LoginViewModel::class.java)
     }

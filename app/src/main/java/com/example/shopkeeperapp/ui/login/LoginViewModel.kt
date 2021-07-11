@@ -1,5 +1,6 @@
 package com.example.shopkeeperapp.ui.login
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,4 +18,6 @@ class LoginViewModel: ViewModel(){
     fun signUp (email: String, password: String){
         _loginOutput = repository.login(email, password)
     }
+
+
 }
