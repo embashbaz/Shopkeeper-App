@@ -133,7 +133,7 @@ class Repository {
     fun saveNewProduct(shopProduct: ShopProduct, uId: String): MutableLiveData<HashMap<String, String>>{
         val operationOutput = MutableLiveData<HashMap<String, String>>()
 
-        mFirebaseDb.collection("shopProduct").add(shopProduct)
+        mFirebaseDb.collection("shops").document(uId).collection("products").add(shopProduct)
             .addOnSuccessListener {
                 Log.d(ContentValues.TAG, "DocumentSnapshot written")
                 operationOutput.value?.set("Status", "Success")
@@ -148,5 +148,30 @@ class Repository {
 
 
         return operationOutput
+    }
+
+    fun getProducts(uId:String): MutableLiveData<List<ShopProduct>>{
+
+        val data = MutableLiveData<List<ShopProduct>>()
+
+        val productRef = mFirebaseDb.collection("shops").document(uId).collection("products")
+
+        productRef
+            .get()
+            .addOnSuccessListener {
+
+                val dataList = ArrayList<ShopProduct>()
+                for (snapshot in it){
+
+                    dataList.add(snapshot.toObject(ShopProduct::class.java))
+                }
+                data.value = dataList
+
+            }.addOnFailureListener {
+                data.value = null
+            }
+
+        return data
+
     }
 }
