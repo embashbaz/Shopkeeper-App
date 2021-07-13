@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,7 @@ import com.example.shopkeeperapp.ShopKeeperApp
 import com.example.shopkeeperapp.data.ShopProduct
 import com.example.shopkeeperapp.ui.dialog.NoticeDialogFragment
 import com.google.android.material.textfield.TextInputLayout
-
+import com.google.zxing.integration.android.IntentIntegrator
 
 class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener, ItemsQuantityDialog.ItemsQuantityDialogListener  {
 
@@ -42,6 +43,8 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
     var numberItems = 0.0
 
     val REQUEST_IMAGE_CAPTURE = 1
+    val CUSTOMIZED_REQUEST_CODE = 0x0000ffff
+
     var imageUrl = ""
 
     val productDetailsViewModel: ProductDetailsViewModel by lazy {
@@ -60,6 +63,10 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
 
         productImage.setOnClickListener{
             dispatchTakePictureIntent()
+        }
+
+        saveProductBt.setOnClickListener{
+            saveNewProduct()
         }
 
         checkImageUploadStatus()
@@ -110,6 +117,20 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
             productImage.setImageBitmap(imageBitmap)
             confirmSavingPicture(imageBitmap!!)
 
+        }else if(requestCode != CUSTOMIZED_REQUEST_CODE && requestCode != IntentIntegrator.REQUEST_CODE){
+            val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+            if (result != null) {
+                if (result.contents == null) {
+                    Toast.makeText(activity, "cancelled", Toast.LENGTH_SHORT).show()
+                } else {
+                    Log.d("MainActivity", "Scanned")
+                    Toast.makeText(activity, "Scanned -> " + result.contents, Toast.LENGTH_SHORT)
+                        .show()
+                    productQrTl.editText?.setText(result.toString())
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data)
+            }
         }
     }
 
@@ -172,6 +193,18 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
 
     private fun checkMandatoryFields(): Boolean{
         return !productNameTl.editText?.text.isNullOrEmpty() && !productPriceTl.editText?.text.isNullOrEmpty()
+    }
+
+    private fun scanCode(){
+
+        val intentIntegrator = IntentIntegrator(activity)
+
+        intentIntegrator.setBeepEnabled(false)
+        intentIntegrator.setCameraId(0)
+        intentIntegrator.setPrompt("SCAN")
+        intentIntegrator.setBarcodeImageEnabled(false)
+        intentIntegrator.initiateScan()
+
     }
 
 
