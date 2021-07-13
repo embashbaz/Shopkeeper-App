@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.shopkeeperapp.R
 import com.example.shopkeeperapp.ShopKeeperApp
 import com.example.shopkeeperapp.ui.registration.RegistrationViewModel
@@ -32,13 +33,28 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view =   inflater.inflate(R.layout.fragment_login, container, false)
-            initiateView(view)
+
+          goToLandInScreen()
+
+           initiateView(view)
            loginBt.setOnClickListener{
                loginMethod()
            }
 
+        registerBt.setOnClickListener{
+            this.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+
 
         return view
+    }
+
+    fun goToLandInScreen(){
+        if( !((activity?.application as ShopKeeperApp).uId).isNullOrEmpty() ) {
+
+            this.findNavController().navigate(R.id.action_loginFragment_to_landInFragment)
+
+        }
     }
 
     fun initiateView(view: View){

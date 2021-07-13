@@ -1,6 +1,9 @@
 package com.example.shopkeeperapp.data
 
+import android.os.Parcelable
 import com.google.android.gms.maps.model.LatLng
+
+import kotlinx.android.parcel.Parcelize
 
 
 data class ShopKeeper(
@@ -15,6 +18,8 @@ data class ShopKeeper(
 
 )
 
+
+@Parcelize
 data class ShopProduct(
     val docId: String,
     val productName: String,
@@ -25,5 +30,5 @@ data class ShopProduct(
     val description: String
 
 
-)
+): Parcelable
 

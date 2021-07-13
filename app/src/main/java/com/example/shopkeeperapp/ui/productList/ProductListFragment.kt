@@ -53,7 +53,7 @@ class ProductListFragment : Fragment() {
         })
 
         addProductImg.setOnClickListener{
-
+            this.findNavController().navigate(R.id.action_productListFragment_to_productDetailFragment)
         }
 
 
@@ -61,7 +61,11 @@ class ProductListFragment : Fragment() {
     }
 
     private fun moveToProductDetail(shopProduct: ShopProduct) {
-        this.findNavController().navigate()
+
+        val bundle = Bundle()
+        bundle.putParcelable("product", shopProduct)
+
+        this.findNavController().navigate(R.id.action_productListFragment_to_productDetailFragment, bundle)
 
     }
 

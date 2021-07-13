@@ -70,7 +70,7 @@
         app:rowCount="2">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/go_expense_card"
+            android:id="@+id/go_product_list_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardCornerRadius="8dp"

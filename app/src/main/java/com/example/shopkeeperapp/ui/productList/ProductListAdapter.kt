@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.shopkeeperapp.R
 import com.example.shopkeeperapp.data.ShopProduct
 
@@ -59,6 +61,8 @@ class ProductListAdapter (onClick: (ShopProduct) -> Unit): RecyclerView.Adapter<
             qrCodeTxt.text = item.productQrCode.toString()
             numberOfProductTxt.text = item.productQrCode.toString()
             priceTxt.text = item.price.toString()
+
+            Glide.with(itemView).load(item.imageUrl).apply(RequestOptions.circleCropTransform()).into(productImage)
         }
 
         companion object {
