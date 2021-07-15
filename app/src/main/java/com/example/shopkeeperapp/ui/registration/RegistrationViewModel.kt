@@ -17,7 +17,7 @@ class RegistrationViewModel : ViewModel() {
         get() = _registrationOutput
 
 
-    lateinit var latLng : LatLng
+    var latLng : LatLng = LatLng(0.0, 0.0)
 
 
     fun signUp (mShopKeeper: ShopKeeper, password: String){

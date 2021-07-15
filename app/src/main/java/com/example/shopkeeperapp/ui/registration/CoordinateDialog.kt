@@ -35,6 +35,7 @@ class CoordinateDialog(viewModel: RegistrationViewModel) : DialogFragment(){
 
             lantitudeTl = view.findViewById(R.id.latitude_tl)
             longitudeTl = view.findViewById(R.id.longitude_tl)
+            getCoordinate()
 
             builder.setView(view)
                 // Add action buttons
@@ -86,7 +87,8 @@ class CoordinateDialog(viewModel: RegistrationViewModel) : DialogFragment(){
         if (lantitudeTl.editText?.text.isNullOrEmpty() && longitudeTl.editText?.text.isNullOrEmpty() ){
 
         val latLng = LatLng(lantitudeTl.editText?.text.toString().toDouble(), longitudeTl.editText?.text.toString().toDouble())
-            registrationViewModel.latLng = latLng
+            //registrationViewModel.latLng = latLng
+            registrationViewModel.passLatLng(latLng)
         }
 
     }

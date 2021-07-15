@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopkeeperapp.R
 import com.example.shopkeeperapp.ShopKeeperApp
@@ -51,6 +52,9 @@ class ProductListFragment : Fragment() {
                 noDataTxt.visibility = View.VISIBLE
             }
         })
+
+        productsRecyclerView.layoutManager = LinearLayoutManager(activity)
+        productsRecyclerView.adapter = productListAdapter
 
         addProductImg.setOnClickListener{
             this.findNavController().navigate(R.id.action_productListFragment_to_productDetailFragment)

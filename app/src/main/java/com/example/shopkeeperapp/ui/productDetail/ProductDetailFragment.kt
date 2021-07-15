@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -15,6 +16,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.shopkeeperapp.R
@@ -24,7 +26,8 @@ import com.example.shopkeeperapp.ui.dialog.NoticeDialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.google.zxing.integration.android.IntentIntegrator
 
-class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener, ItemsQuantityDialog.ItemsQuantityDialogListener  {
+class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener,
+    ItemsQuantityDialog.ItemsQuantityDialogListener {
 
     lateinit var productNameTl: TextInputLayout
     lateinit var productDescriptionTl: TextInputLayout
@@ -62,11 +65,21 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
         bindViews(view)
 
         productImage.setOnClickListener{
+           // getContent.launch(photoURI)
             dispatchTakePictureIntent()
         }
 
         saveProductBt.setOnClickListener{
             saveNewProduct()
+        }
+
+        scanBarCodeBt.setOnClickListener{
+            scanCode()
+        }
+
+        getNumberItemTxt.setOnClickListener{
+            openItemsQuantity()
+
         }
 
         checkImageUploadStatus()
@@ -102,6 +115,13 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
 
     }
 
+    val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        imageBitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, uri)
+
+        productImage.setImageBitmap(imageBitmap)
+        confirmSavingPicture(imageBitmap!!)
+    }
+
     private fun dispatchTakePictureIntent() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         try {
@@ -110,12 +130,12 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
             // display error state to the user
         }
     }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             imageBitmap = data?.extras?.get("data") as Bitmap
             productImage.setImageBitmap(imageBitmap)
-            confirmSavingPicture(imageBitmap!!)
+           confirmSavingPicture(imageBitmap!!)
 
         }else if(requestCode != CUSTOMIZED_REQUEST_CODE && requestCode != IntentIntegrator.REQUEST_CODE){
             val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
@@ -134,11 +154,22 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
         }
     }
 
+
+
     fun confirmSavingPicture(bitmap: Bitmap){
 
         val messageText = "Are you sure you want to save this picture?"
         val dialog = NoticeDialogFragment(messageText, "Save")
+        dialog.setListener(this)
         dialog.show(parentFragmentManager, "Confirm you want to save picture")
+
+    }
+
+    fun openItemsQuantity(){
+
+        val dialog = ItemsQuantityDialog()
+        dialog.setListener(this)
+        dialog.show(parentFragmentManager, "give product quantity")
 
     }
 
@@ -151,6 +182,9 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
             picName = productNameTl.editText?.text.toString()
 
         imageBitmap?.let { productDetailsViewModel.uploadImage(it, uId, picName) }
+        productDetailsViewModel.pictureUploadOutput.observe(viewLifecycleOwner, {
+            Toast.makeText(activity, it["status"], Toast.LENGTH_SHORT).show()
+        })
     }
 
     override fun onDialogPositiveClick(dialog: DialogFragment) {

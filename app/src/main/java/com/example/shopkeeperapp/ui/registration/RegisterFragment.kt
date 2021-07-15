@@ -15,7 +15,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.type.LatLng
 
 
-abstract class RegisterFragment : Fragment() {
+class RegisterFragment : Fragment() {
 
     lateinit var nameTl: TextInputLayout
     lateinit var emailTl: TextInputLayout

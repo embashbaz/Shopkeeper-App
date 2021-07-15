@@ -61,20 +61,26 @@ class LoginFragment : Fragment() {
         emailTl = view.findViewById(R.id.email_login)
         passwordTl = view.findViewById(R.id.password_login)
         forgotPwdBt = view.findViewById(R.id.forgot_password)
-        registerBt = view.findViewById(R.id.register_button)
+        registerBt = view.findViewById(R.id.register_login)
         loginBt = view.findViewById(R.id.login_button)
 
 
     }
 
     fun loginMethod(){
-        if (!emailTl.editText?.text.isNullOrEmpty() && !passwordTl.editText?.text.isNullOrEmpty() ){
-            loginViewModel.signUp(emailTl.editText?.text.toString(), passwordTl.editText?.text.toString())
+        if (!emailTl.editText?.text.isNullOrEmpty() && !passwordTl.editText?.text.isNullOrEmpty() ) {
+            loginViewModel.signUp(
+                emailTl.editText?.text.toString(),
+                passwordTl.editText?.text.toString()
+            )
 
-            loginViewModel.loginOutput.observe(viewLifecycleOwner,{
-                Toast.makeText(activity, it["status"]+": "+it["value"], Toast.LENGTH_LONG).show()
-               if(it["status"] == "success")
-                ( activity?.application as ShopKeeperApp).uId = it["value"].toString()
+            loginViewModel.loginOutput.observe(viewLifecycleOwner, {
+                Toast.makeText(activity, it["status"] + ": " + it["value"], Toast.LENGTH_LONG)
+                    .show()
+                if (it["status"] == "success") {
+                    (activity?.application as ShopKeeperApp).uId = it["value"].toString()
+                    this.findNavController().navigate(R.id.action_loginFragment_to_landInFragment)
+                }
             })
         }
 

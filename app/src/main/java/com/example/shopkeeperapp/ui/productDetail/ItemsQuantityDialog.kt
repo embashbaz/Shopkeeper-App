@@ -54,26 +54,33 @@ class ItemsQuantityDialog: DialogFragment() {
 
 
 
-    interface ItemsQuantityDialogListener {
+    public interface ItemsQuantityDialogListener {
         fun onDialogPositiveClick(itemNumber: Double, unitPrice: Double, totalPrice: Double)
         fun onDialogNegativeClick(dialog: DialogFragment)
     }
 
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
 
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        // Verify that the host activity implements the callback interface
-        try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
-            listener = context as ItemsQuantityDialogListener
-        } catch (e: ClassCastException) {
-            // The activity doesn't implement the interface, throw exception
-            throw ClassCastException((context.toString() +
-                    " must implement NoticeDialogListener"))
-        }
+    fun setListener(listener: ItemsQuantityDialogListener) {
+        this.listener = listener
     }
+
+
+
+
+    //override fun onAttach(context: Context) {
+    //    super.onAttach(context)
+        // Verify that the host activity implements the callback interface
+   //     try {
+            // Instantiate the NoticeDialogListener so we can send events to the host
+    //    listener = parentFragmentManager as ItemsQuantityDialogListener
+    //    } catch (e: ClassCastException) {
+            // The activity doesn't implement the interface, throw exception
+    //        throw ClassCastException((context.toString() +
+       //             " must implement NoticeDialogListener"))
+
+     //   }
+   // }
 
     fun calculateTotal(){
         unitPriceTl.editText?.addTextChangedListener(object: TextWatcher{
@@ -95,24 +102,6 @@ class ItemsQuantityDialog: DialogFragment() {
 
         })
 
-        totalPriceTl.editText?.addTextChangedListener(object: TextWatcher{
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                TODO("Not yet implemented")
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                if(!s.isNullOrEmpty()){
-                    unitPrice = s?.toString().toDouble() / itemNumberTl.editText?.text.toString().toDouble()
-                    unitPriceTl.editText?.setText(unitPrice.toString())
-                }
-            }
-
-
-        })
 
 
     }
