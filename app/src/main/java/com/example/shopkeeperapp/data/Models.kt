@@ -36,7 +36,7 @@ data class ShopProduct(
 
 @Entity
 data class ShopIncome(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id:Int,
     val productId: String,
     val incomeName: String,
@@ -49,7 +49,7 @@ data class ShopIncome(
 
 @Entity
 data class Expenduture(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
     val ExpendureName: String,
     val cost: Double,

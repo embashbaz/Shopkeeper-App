@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_landInFragment_to_productListFragment"
             app:destination="@id/productListFragment" />
+        <action
+            android:id="@+id/action_landInFragment_to_onsiteSaleListFragment"
+            app:destination="@id/onsiteSaleListFragment" />
+        <action
+            android:id="@+id/action_landInFragment_to_orderListFragment"
+            app:destination="@id/orderListFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -44,4 +50,31 @@
         android:id="@+id/productDetailFragment"
         android:name="com.example.shopkeeperapp.ui.productDetail.ProductDetailFragment"
         android:label="ProductDetailFragment" />
+    <fragment
+        android:id="@+id/onsiteSaleListFragment"
+        android:name="com.example.shopkeeperapp.ui.onsiteSalesList.OnsiteSaleListFragment"
+        android:label="fragment_onsite_sale_list"
+        tools:layout="@layout/fragment_onsite_sale_list" >
+        <action
+            android:id="@+id/action_onsiteSaleListFragment_to_onsiteCartFragment"
+            app:destination="@id/onsiteCartFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderListFragment"
+        android:name="com.example.shopkeeperapp.ui.ordersList.OrderListFragment"
+        android:label="fragment_order_list"
+        tools:layout="@layout/fragment_order_list" >
+        <action
+            android:id="@+id/action_orderListFragment_to_onlineCartFragment"
+            app:destination="@id/onlineCartFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onsiteCartFragment"
+        android:name="com.example.shopkeeperapp.ui.onSiteCart.OnsiteCartFragment"
+        android:label="OnsiteCartFragment" />
+    <fragment
+        android:id="@+id/onlineCartFragment"
+        android:name="com.example.shopkeeperapp.ui.onlineCart.OnlineCartFragment"
+        android:label="fragment_online_cart"
+        tools:layout="@layout/fragment_online_cart" />
 </navigation>

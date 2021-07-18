@@ -16,6 +16,9 @@ import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
 import com.google.firebase.storage.ktx.component1
 import com.google.firebase.storage.ktx.component2
+import com.squareup.okhttp.Dispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class Repository(var mRoomDao: RoomDao? = null) {
 
@@ -207,6 +210,7 @@ class Repository(var mRoomDao: RoomDao? = null) {
     @WorkerThread
     suspend fun insertCart(cart: Cart){
         roomDao?.insertCart(cart)
+
     }
 
     @WorkerThread
@@ -254,11 +258,7 @@ class Repository(var mRoomDao: RoomDao? = null) {
         roomDao?.deleteItemProduct(item)
     }
 
-
-    fun getAllCart(): LiveData<List<Cart>>{
-
-    }
-
+    val allCarts = roomDao.getAllCart()
 
     fun getAllItemForCart(id: Int): LiveData<List<ItemProduct>>? {
         return roomDao?.getAllItemForCart(id)
