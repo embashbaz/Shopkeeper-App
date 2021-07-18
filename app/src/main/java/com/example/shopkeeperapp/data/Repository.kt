@@ -3,7 +3,13 @@ package com.example.shopkeeperapp.data
 import android.content.ContentValues
 import android.graphics.Bitmap
 import android.util.Log
+import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -11,7 +17,7 @@ import java.io.ByteArrayOutputStream
 import com.google.firebase.storage.ktx.component1
 import com.google.firebase.storage.ktx.component2
 
-class Repository {
+class Repository(var mRoomDao: RoomDao? = null) {
 
     var mFirebaseAuth: FirebaseAuth
     var mFirebaseDb : FirebaseFirestore
@@ -23,6 +29,8 @@ class Repository {
         mFirebaseStore = FirebaseStorage.getInstance()
 
     }
+
+    val roomDao: RoomDao? = mRoomDao
 
     fun login(email: String, password: String): MutableLiveData<HashMap<String, String>>{
         val operationOutput = MutableLiveData<HashMap<String, String>>()
@@ -38,7 +46,6 @@ class Repository {
 
                     data.put("status", "success")
                     data.put("value", mFirebaseAuth.uid.toString())
-
 
                 } else {
                     data.put("Status", "Failed")
@@ -193,6 +200,72 @@ class Repository {
             }
 
         return data
+    }
 
+
+
+    @WorkerThread
+    suspend fun insertCart(cart: Cart){
+        roomDao?.insertCart(cart)
+    }
+
+    @WorkerThread
+    suspend fun insertItemProduct(itemProduct: ItemProduct){
+        roomDao?.insertItemProduct(itemProduct)
+    }
+
+    @WorkerThread
+    suspend fun insertExpenduture(expenduture: Expenduture){
+        roomDao?.insertExpenduture(expenduture)
+    }
+
+    @WorkerThread
+    suspend fun insertIncome(income: ShopIncome){
+        roomDao?.insertIncome(income)
+    }
+
+    @WorkerThread
+    suspend fun updateCart(cart: Cart){
+        roomDao?.updateCart(cart)
+    }
+
+    @WorkerThread
+    suspend fun updateItemProduct(itemProduct: ItemProduct){
+        roomDao?.updateItemProduct(itemProduct)
+    }
+
+    @WorkerThread
+    suspend fun updateExpenduture(expenduture: Expenduture){
+        roomDao?.updateExpenduture(expenduture)
+    }
+
+    @WorkerThread
+    suspend fun updateIncme(income: ShopIncome){
+        roomDao?.updateIncme(income)
+    }
+
+    @WorkerThread
+    suspend fun deleteCart(cart: Cart){
+        roomDao?.deleteCart(cart)
+    }
+
+    @WorkerThread
+    suspend fun deleteItemProduct(item: ItemProduct){
+        roomDao?.deleteItemProduct(item)
+    }
+
+
+    fun getAllCart(): LiveData<List<Cart>>{
+
+    }
+
+
+    fun getAllItemForCart(id: Int): LiveData<List<ItemProduct>>? {
+        return roomDao?.getAllItemForCart(id)
+    }
+
+
+    suspend fun deleteAllItemForCart(id: Int){
+        roomDao?.deleteAllItemForCart(id)
     }
 }

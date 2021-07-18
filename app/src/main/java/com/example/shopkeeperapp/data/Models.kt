@@ -35,12 +35,24 @@ data class ShopProduct(
 ): Parcelable
 
 @Entity
-data class ProductSold(
+data class ShopIncome(
     @PrimaryKey
     val id:Int,
     val productId: String,
-    val nameProduct: String,
+    val incomeName: String,
     val totalPrice: Double,
+    val day: Int,
+    val month: Int,
+    val year: Int
+
+)
+
+@Entity
+data class Expenduture(
+    @PrimaryKey
+    val id: Int,
+    val ExpendureName: String,
+    val cost: Double,
     val day: Int,
     val month: Int,
     val year: Int
