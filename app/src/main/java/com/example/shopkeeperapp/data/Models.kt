@@ -39,7 +39,7 @@ data class ProductSold(
     @PrimaryKey
     val id:Int,
     val productId: String,
-    val namePRoduct: String,
+    val nameProduct: String,
     val totalPrice: Double,
     val day: Int,
     val month: Int,
@@ -47,3 +47,30 @@ data class ProductSold(
 
 )
 
+@Parcelize
+@Entity
+data class Cart(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    val type: String,
+    val status: Int,
+    val dateCreated: String,
+    var totalPrice: Double,
+
+    ): Parcelable
+
+@Parcelize
+@Entity
+data class ItemProduct(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    val cartId: Int,
+    var name: String,
+    val date: String,
+    var price: Double,
+    var quantity: Double,
+    var totalPriceNum: Double,
+    var description: String
+
+
+): Parcelable

@@ -26,6 +26,7 @@ import com.example.shopkeeperapp.ui.dialog.NoticeDialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.google.zxing.integration.android.IntentIntegrator
 
+
 class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener,
     ItemsQuantityDialog.ItemsQuantityDialogListener {
 
@@ -93,9 +94,9 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
                 Toast.makeText(activity, it["status"] +" with value "+ it["value"], Toast.LENGTH_SHORT).show()
                 if(it["status"].equals("Operation finished")){
                     imageUrl = it["value"].toString()
-                    uploadingImage = false
-                }else if(it["status"].equals("Operation in progress")){
                     uploadingImage = true
+                }else if(it["status"].equals("Operation in progress")){
+                    uploadingImage = false
                 }
 
             })
@@ -113,13 +114,6 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
         ignoreProductBt = view.findViewById(R.id.ignore_bt)
 
 
-    }
-
-    val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        imageBitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, uri)
-
-        productImage.setImageBitmap(imageBitmap)
-        confirmSavingPicture(imageBitmap!!)
     }
 
     private fun dispatchTakePictureIntent() {
@@ -182,9 +176,7 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
             picName = productNameTl.editText?.text.toString()
 
         imageBitmap?.let { productDetailsViewModel.uploadImage(it, uId, picName) }
-        productDetailsViewModel.pictureUploadOutput.observe(viewLifecycleOwner, {
-            Toast.makeText(activity, it["status"], Toast.LENGTH_SHORT).show()
-        })
+       checkImageUploadStatus()
     }
 
     override fun onDialogPositiveClick(dialog: DialogFragment) {
@@ -203,7 +195,7 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
 
     private fun saveNewProduct(){
         if (checkMandatoryFields()) {
-            if (!uploadingImage) {
+            if (uploadingImage) {
                 val shopProduct = ShopProduct(
                     "",
                     productNameTl.editText?.text.toString(),
@@ -214,6 +206,11 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
                     productDescriptionTl.editText?.text.toString()
                 )
                 productDetailsViewModel.saveNewProduct(shopProduct, uId)
+                productDetailsViewModel.addingProductOutput.observe(viewLifecycleOwner, {
+
+                    Toast.makeText(activity, it["status"] +" with value "+ it["value"], Toast.LENGTH_SHORT).show()
+
+                })
 
             }else{
                 Toast.makeText(activity, "Wait for image upload to finish", Toast.LENGTH_LONG).show()

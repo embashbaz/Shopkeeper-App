@@ -74,21 +74,23 @@ class Repository {
                     mFirebaseDb.collection("shops").document(userId.toString()).set(shopKeeper)
                         .addOnSuccessListener {
                             Log.d(ContentValues.TAG, "DocumentSnapshot written")
-                            status.put("Status", "success")
+                            status.put("status", "success")
                             status.put("value", userId.toString())
                             mFirebaseAuth.signOut()
+                            operationOutput.postValue(status)
 
                         }
                         .addOnFailureListener { e ->
                             Log.w(ContentValues.TAG, "Error adding document", e)
-                            status.put("Status", "Failed")
+                            status.put("status", "Failed")
                             status.put("value",
                                 "Operation Failed with error"+ e.toString()
                             )
+                            operationOutput.postValue(status)
                         }
 
                 } else {
-                    status.put("Status", "Failed")
+                    status.put("status", "Failed")
                     status.put("value",
                         "Operation Failed with error"+ task.exception
                     )
@@ -115,7 +117,7 @@ class Repository {
 
         var status = hashMapOf<String, String>()
         uploadTask.addOnFailureListener {
-            status.put("Status", "Failed")
+            status.put("status", "Failed")
             status.put("value",
                 "Operation Failed with error"+ it.toString()
             )
@@ -123,18 +125,19 @@ class Repository {
 
         }.addOnProgressListener { (bytesTransferred, totalByteCount) ->
             val progress = (100.0 * bytesTransferred) / totalByteCount
-            if(progress == 100.0){
+            if(progress < 100.0){
 
-                status.put("Status", "Operation finished")
-                status.put("value", imageRef.downloadUrl.toString()
-
-
-
-                )
-
-            }else{
-                status.put("Status", "Operation in progress")
+                status.put("status", "Operation in progress")
                 status.put("value","Upload is $progress% done" )
+
+
+            }else if (progress == 100.0){
+
+                imageRef.downloadUrl.addOnSuccessListener {
+                    status.put("status", "Operation finished")
+                    status.put("value", it.toString())
+                    operationOutput.postValue(status)
+                }
 
             }
             operationOutput.postValue(status)
@@ -152,13 +155,13 @@ class Repository {
         mFirebaseDb.collection("shops").document(uId).collection("products").add(shopProduct)
             .addOnSuccessListener {
                 Log.d(ContentValues.TAG, "DocumentSnapshot written")
-                status.put("Status", "Success")
+                status.put("status", "Success")
                 status.put("value","Record added" )
 
             }
             .addOnFailureListener { e ->
                 Log.w(ContentValues.TAG, "Error adding document", e)
-                status.put("Status", "Failed")
+                status.put("status", "Failed")
                 status.put("value",e.toString() )
             }
 
