@@ -14,7 +14,7 @@ interface RoomDao {
     suspend fun insertItemProduct(itemProduct: ItemProduct)
 
     @Insert
-    suspend fun insertExpenduture(expenduture: Expenduture)
+    suspend fun insertExpenduture(expenditure: Expenditure)
 
     @Insert
     suspend fun insertIncome(income: ShopIncome)
@@ -26,7 +26,7 @@ interface RoomDao {
     suspend fun updateItemProduct(itemProduct: ItemProduct)
 
     @Update
-    suspend fun updateExpenduture(expenduture: Expenduture)
+    suspend fun updateExpenduture(expenditure: Expenditure)
 
     @Update
     suspend fun updateIncme(income: ShopIncome)

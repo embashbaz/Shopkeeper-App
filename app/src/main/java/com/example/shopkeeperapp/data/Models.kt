@@ -48,7 +48,7 @@ data class ShopIncome(
 )
 
 @Entity
-data class Expenduture(
+data class Expenditure(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val ExpendureName: String,

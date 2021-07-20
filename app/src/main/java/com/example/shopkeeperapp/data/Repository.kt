@@ -6,19 +6,12 @@ import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
 import com.google.firebase.storage.ktx.component1
 import com.google.firebase.storage.ktx.component2
-import com.squareup.okhttp.Dispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class Repository(var mRoomDao: RoomDao? = null) {
 
@@ -44,8 +37,6 @@ class Repository(var mRoomDao: RoomDao? = null) {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(ContentValues.TAG, "signInWithEmail:success")
-                    //operationOutput.value?.set("Status", "success")
-                    //operationOutput.value?.set("value", mFirebaseAuth.uid.toString())
 
                     data.put("status", "success")
                     data.put("value", mFirebaseAuth.uid.toString())
@@ -219,8 +210,8 @@ class Repository(var mRoomDao: RoomDao? = null) {
     }
 
     @WorkerThread
-    suspend fun insertExpenduture(expenduture: Expenduture){
-        roomDao?.insertExpenduture(expenduture)
+    suspend fun insertExpenduture(expenditure: Expenditure){
+        roomDao?.insertExpenduture(expenditure)
     }
 
     @WorkerThread
@@ -239,8 +230,8 @@ class Repository(var mRoomDao: RoomDao? = null) {
     }
 
     @WorkerThread
-    suspend fun updateExpenduture(expenduture: Expenduture){
-        roomDao?.updateExpenduture(expenduture)
+    suspend fun updateExpenduture(expenditure: Expenditure){
+        roomDao?.updateExpenduture(expenditure)
     }
 
     @WorkerThread
@@ -258,7 +249,7 @@ class Repository(var mRoomDao: RoomDao? = null) {
         roomDao?.deleteItemProduct(item)
     }
 
-    val allCarts = roomDao.getAllCart()
+    val allCarts = roomDao?.getAllCart()
 
     fun getAllItemForCart(id: Int): LiveData<List<ItemProduct>>? {
         return roomDao?.getAllItemForCart(id)
