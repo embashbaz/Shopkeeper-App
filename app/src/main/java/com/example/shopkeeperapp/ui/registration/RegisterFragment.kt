@@ -11,11 +11,12 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.shopkeeperapp.R
 import com.example.shopkeeperapp.data.ShopKeeper
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.textfield.TextInputLayout
-import com.google.type.LatLng
 
 
-class RegisterFragment : Fragment() {
+
+class RegisterFragment : Fragment(), CoordinateDialog.CoordinateDialogListener {
 
     lateinit var nameTl: TextInputLayout
     lateinit var emailTl: TextInputLayout
@@ -27,6 +28,7 @@ class RegisterFragment : Fragment() {
     lateinit var cityTl: TextInputLayout
     lateinit var getCordinateTxt: TextView
     lateinit var registerBt: Button
+    lateinit var  latLng: LatLng
 
     val registrationViewModel : RegistrationViewModel by lazy {
         ViewModelProvider(this).get(RegistrationViewModel::class.java)
@@ -69,7 +71,8 @@ class RegisterFragment : Fragment() {
     }
 
     private fun getCoordinate(){
-        val dialog = CoordinateDialog(registrationViewModel)
+        val dialog = CoordinateDialog()
+        dialog.setListener(this)
         dialog.show(parentFragmentManager, "Give Coordinate")
     }
 
@@ -79,9 +82,9 @@ class RegisterFragment : Fragment() {
             !businessAreaTl.editText?.text.isNullOrEmpty()
                || !cityTl.editText?.text.isNullOrEmpty()){
             if(passwordTl.editText?.text.toString() == confirmPasswordTl.editText?.text.toString()){
-                    if(!registrationViewModel.latLng.equals(0.0)){
+                    if(!latLng.equals(0.0)){
                         val shopKeeper = ShopKeeper("",emailTl.editText?.text.toString(),nameTl.editText?.text.toString(),
-                            registrationViewModel.latLng,phoneNumberTl.editText?.text.toString().toLong(),
+                            latLng,phoneNumberTl.editText?.text.toString().toLong(),
                           businessAreaTl.editText?.text.toString(), cityTl.editText?.text.toString(), descriptionTl.editText?.text.toString() )
 
                         registrationViewModel.signUp(shopKeeper, passwordTl.editText?.text.toString())
@@ -107,7 +110,9 @@ class RegisterFragment : Fragment() {
 
     }
 
-
+    override fun onDialogPositiveClick(latLng: com.google.android.gms.maps.model.LatLng) {
+        this.latLng = latLng
+    }
 
 
 }

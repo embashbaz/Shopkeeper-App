@@ -42,7 +42,7 @@ class LoginFragment : Fragment() {
            }
 
         registerBt.setOnClickListener{
-            this.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+           goToRegistrationFgmt()
         }
 
 
@@ -87,6 +87,7 @@ class LoginFragment : Fragment() {
     }
 
     fun goToRegistrationFgmt(){
+        this.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
 
     }
 

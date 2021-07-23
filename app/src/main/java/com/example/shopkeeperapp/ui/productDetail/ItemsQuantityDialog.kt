@@ -40,21 +40,21 @@ class ItemsQuantityDialog: DialogFragment() {
 
                         listener.onDialogPositiveClick(itemNumberTl.editText?.text.toString().toDouble(), unitPrice, totalPrice)
                     })
-                .setNegativeButton("Cancel",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // Send the negative button event back to the host activity
-                        listener.onDialogNegativeClick(this)
-                    })
+                .setNegativeButton("Cancel"
+                ) { dialog, id ->
+                    // Send the negative button event back to the host activity
+                    listener.onDialogNegativeClick(this)
+                }
 
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
 
 
-            }
+    }
 
 
 
-    public interface ItemsQuantityDialogListener {
+    interface ItemsQuantityDialogListener {
         fun onDialogPositiveClick(itemNumber: Double, unitPrice: Double, totalPrice: Double)
         fun onDialogNegativeClick(dialog: DialogFragment)
     }

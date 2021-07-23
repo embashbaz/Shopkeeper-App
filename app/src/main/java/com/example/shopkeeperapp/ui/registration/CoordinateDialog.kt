@@ -11,18 +11,20 @@ import android.widget.ArrayAdapter
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
 import com.example.shopkeeperapp.R
+import com.example.shopkeeperapp.ui.dialog.NoticeDialogFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.gms.maps.model.LatLng
 
-class CoordinateDialog(viewModel: RegistrationViewModel) : DialogFragment(){
+class CoordinateDialog() : DialogFragment(){
 
-    val registrationViewModel = viewModel
+    internal lateinit var listener: CoordinateDialogListener
 
     lateinit var lantitudeTl: TextInputLayout
     lateinit var longitudeTl: TextInputLayout
     lateinit var fusedLocation: FusedLocationProviderClient
+    lateinit var  latLng: LatLng
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -41,7 +43,7 @@ class CoordinateDialog(viewModel: RegistrationViewModel) : DialogFragment(){
                 // Add action buttons
                 .setPositiveButton("Save",
                     DialogInterface.OnClickListener { dialog, id ->
-                        setDataTo()
+                        listener.onDialogPositiveClick(setDataTo())
                     })
                 .setNegativeButton("Cancel",
                     DialogInterface.OnClickListener { dialog, id ->
@@ -83,14 +85,24 @@ class CoordinateDialog(viewModel: RegistrationViewModel) : DialogFragment(){
         }
     }
 
-    private fun setDataTo() {
-        if (lantitudeTl.editText?.text.isNullOrEmpty() && longitudeTl.editText?.text.isNullOrEmpty() ){
+    private fun setDataTo() : LatLng{
+        if (!lantitudeTl.editText?.text.isNullOrEmpty() && !longitudeTl.editText?.text.isNullOrEmpty() ){
 
-        val latLng = LatLng(lantitudeTl.editText?.text.toString().toDouble(), longitudeTl.editText?.text.toString().toDouble())
+              return  LatLng(lantitudeTl.editText?.text.toString().toDouble(), longitudeTl.editText?.text.toString().toDouble())
             //registrationViewModel.latLng = latLng
-            registrationViewModel.passLatLng(latLng)
+
+        }else{
+            return LatLng(0.0, 0.0)
         }
 
+    }
+
+    fun setListener(listener:  CoordinateDialogListener ) {
+        this.listener = listener
+    }
+
+    interface CoordinateDialogListener {
+        fun onDialogPositiveClick(latLng: LatLng)
     }
 
 

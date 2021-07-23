@@ -44,19 +44,5 @@ class NoticeDialogFragment(message: String, positiveText: String) : DialogFragme
         fun onDialogNegativeClick(dialog: DialogFragment)
     }
 
-    // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
 
-
-    //override fun onAttach(context: Context) {
-     //   super.onAttach(context)
-        // Verify that the host activity implements the callback interface
-    //    try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
-    //        listener = context as NoticeDialogListener
-    //    } catch (e: ClassCastException) {
-            // The activity doesn't implement the interface, throw exception
-     //       throw ClassCastException((context.toString() +
-     //               " must implement NoticeDialogListener"))
-    //    }
-  //  }
 }

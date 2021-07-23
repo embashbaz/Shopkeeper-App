@@ -37,7 +37,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/search_et"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/search_et"
-        app:srcCompat="@drawable/ic_baseline_search_24" />
+        app:srcCompat="@drawable/ic_baseline_search_24"
+        tools:ignore="VectorDrawableCompat" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

@@ -20,6 +20,17 @@ data class ShopKeeper(
 
 )
 
+data class Order(
+    val id: String,
+    val shopId: String,
+    val userId: String,
+    val shopName: String,
+    val userName: String,
+    val cart: Cart,
+    var itemList: List<ItemProduct>,
+
+)
+
 
 @Parcelize
 data class ShopProduct(
