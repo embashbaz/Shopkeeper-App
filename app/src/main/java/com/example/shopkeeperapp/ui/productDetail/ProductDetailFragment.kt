@@ -23,12 +23,13 @@ import com.example.shopkeeperapp.R
 import com.example.shopkeeperapp.ShopKeeperApp
 import com.example.shopkeeperapp.data.ShopProduct
 import com.example.shopkeeperapp.ui.dialog.NoticeDialogFragment
+import com.example.shopkeeperapp.ui.dialog.QrScannerDialog
 import com.google.android.material.textfield.TextInputLayout
 import com.google.zxing.integration.android.IntentIntegrator
 
 
 class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener,
-    ItemsQuantityDialog.ItemsQuantityDialogListener {
+    ItemsQuantityDialog.ItemsQuantityDialogListener, QrScannerDialog.QrCodeScannerDialogListener {
 
     lateinit var productNameTl: TextInputLayout
     lateinit var productDescriptionTl: TextInputLayout
@@ -227,7 +228,7 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
     }
 
     private fun scanCode(){
-
+        /**
         val intentIntegrator = IntentIntegrator(activity)
 
         intentIntegrator.setBeepEnabled(false)
@@ -235,7 +236,18 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
         intentIntegrator.setPrompt("SCAN")
         intentIntegrator.setBarcodeImageEnabled(false)
         intentIntegrator.initiateScan()
+        **/
 
+        val dialog = QrScannerDialog()
+        dialog.setListener(this)
+        dialog.show(parentFragmentManager, "Scan code")
+
+
+
+    }
+
+    override fun onCodeGotten(codeQr: String) {
+        productQrTl.editText?.setText(codeQr)
     }
 
 
