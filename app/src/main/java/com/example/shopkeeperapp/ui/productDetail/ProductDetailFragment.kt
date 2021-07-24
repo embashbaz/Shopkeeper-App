@@ -4,7 +4,6 @@ import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -16,16 +15,17 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.shopkeeperapp.R
 import com.example.shopkeeperapp.ShopKeeperApp
 import com.example.shopkeeperapp.data.ShopProduct
 import com.example.shopkeeperapp.ui.dialog.NoticeDialogFragment
 import com.example.shopkeeperapp.ui.dialog.QrScannerDialog
 import com.google.android.material.textfield.TextInputLayout
-import com.google.zxing.integration.android.IntentIntegrator
+import java.lang.System.load
 
 
 class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListener,
@@ -48,9 +48,9 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
     var numberItems = 0.0
 
     val REQUEST_IMAGE_CAPTURE = 1
-    val CUSTOMIZED_REQUEST_CODE = 0x0000ffff
-
     var imageUrl = ""
+
+    var passedProduct: ShopProduct? = null
 
     val productDetailsViewModel: ProductDetailsViewModel by lazy {
         ViewModelProvider(this).get(ProductDetailsViewModel::class.java)
@@ -65,9 +65,19 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
     ): View? {
         val view = inflater.inflate(R.layout.fragment_product_detail, container, false)
         bindViews(view)
+        checkDataPassed()
 
+
+        checkImageUploadStatus()
+
+        return  view
+
+    }
+
+    private fun onViewClickedNewProduct(){
         productImage.setOnClickListener{
-           // getContent.launch(photoURI)
+            // getContent.launch(photoURI)
+            uploadingImage = false
             dispatchTakePictureIntent()
         }
 
@@ -79,14 +89,120 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
             scanCode()
         }
 
+        ignoreProductBt.setOnClickListener{
+            setViewsToEmpty()
+        }
+
         getNumberItemTxt.setOnClickListener{
             openItemsQuantity()
 
         }
+    }
 
-        checkImageUploadStatus()
+    private fun checkDataPassed(){
+    if(passedProduct == null){
+        onViewClickedNewProduct()
+    }
+        else{
 
-        return  view
+            changeViewsBehaviour()
+            setDataToView()
+            onViewClickedUpdateProduct()
+
+        }
+
+
+
+    }
+
+    private fun onViewClickedUpdateProduct() {
+        productImage.setOnClickListener{
+            // getContent.launch(photoURI)
+            dispatchTakePictureIntent()
+        }
+
+        saveProductBt.setOnClickListener{
+            updateProduct()
+        }
+
+        ignoreProductBt.setOnClickListener{
+            deleteDocument()
+        }
+
+        getNumberItemTxt.setOnClickListener{
+            openItemsQuantity()
+
+        }
+    }
+
+    private fun deleteDocument() {
+        productDetailsViewModel.deleteProduct(uId, passedProduct!!.docId)
+        productDetailsViewModel.deletingProductOutput.observe(viewLifecycleOwner, {
+            Toast.makeText(activity, it["status"] +" with value "+ it["value"], Toast.LENGTH_SHORT).show()
+            if (it["status"] == "success" ){
+                setViewsToEmpty()
+                passedProduct = null
+                //onCreate(null)
+            }
+        })
+    }
+
+    private fun updateProduct() {
+        var newNumItem = numberItems + passedProduct?.itemQuantity!!
+        var newDescr= ""
+        var newPrice = 0.0
+        var newUrl = ""
+
+        if(!productPriceTl.editText?.text.toString().isNullOrEmpty()){
+            newPrice = productPriceTl.editText?.text.toString().toDouble()
+        }else{
+            newPrice = passedProduct!!.price
+        }
+
+        if(!productDescriptionTl.editText?.text.toString().isNullOrEmpty()){
+            newDescr = productDescriptionTl.editText?.text.toString()
+
+        }else{
+            newDescr = passedProduct!!.description
+        }
+
+        if(!imageUrl.isNullOrEmpty()){
+            uploadingImage = true
+            newUrl = imageUrl
+        }else{
+            newUrl = passedProduct!!.imageUrl
+        }
+
+        passedProduct!!.itemQuantity = newNumItem
+        passedProduct!!.description = newDescr
+        passedProduct!!.price = newPrice
+        passedProduct!!.imageUrl = newUrl
+
+        productDetailsViewModel.updateProduct(uId, passedProduct!!.docId, passedProduct!!)
+
+        productDetailsViewModel.updatingProductOutput.observe(viewLifecycleOwner, {
+            Toast.makeText(activity, it["status"] +" with value "+ it["value"], Toast.LENGTH_SHORT).show()
+        })
+
+
+    }
+
+    private fun setDataToView() {
+        productNameTl.editText?.setText(passedProduct?.productName)
+        productDescriptionTl.editText?.setText(passedProduct?.description)
+        productPriceTl.editText?.setText(passedProduct?.price.toString())
+        productQrTl.editText?.setText(passedProduct?.productQrCode.toString())
+        if(!passedProduct?.imageUrl.isNullOrEmpty())
+            view?.let { Glide.with(it).load(passedProduct?.imageUrl).into(productImage) }
+    }
+
+    private fun changeViewsBehaviour() {
+        productNameTl.editText?.isEnabled = false
+        productQrTl.editText?.isEnabled = false
+        getNumberItemTxt.setText("Number of items added")
+        scanBarCodeBt.isEnabled = false
+        saveProductBt.setText("Update")
+        ignoreProductBt.setText("Delete")
 
     }
 
@@ -132,20 +248,6 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
             productImage.setImageBitmap(imageBitmap)
            confirmSavingPicture(imageBitmap!!)
 
-        }else if(requestCode != CUSTOMIZED_REQUEST_CODE && requestCode != IntentIntegrator.REQUEST_CODE){
-            val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-            if (result != null) {
-                if (result.contents == null) {
-                    Toast.makeText(activity, "cancelled", Toast.LENGTH_SHORT).show()
-                } else {
-                    Log.d("MainActivity", "Scanned")
-                    Toast.makeText(activity, "Scanned -> " + result.contents, Toast.LENGTH_SHORT)
-                        .show()
-                    productQrTl.editText?.setText(result.toString())
-                }
-            } else {
-                super.onActivityResult(requestCode, resultCode, data)
-            }
         }
     }
 
@@ -210,6 +312,9 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
                 productDetailsViewModel.addingProductOutput.observe(viewLifecycleOwner, {
 
                     Toast.makeText(activity, it["status"] +" with value "+ it["value"], Toast.LENGTH_SHORT).show()
+                    if (it["status"] == "success" ){
+                        setViewsToEmpty()
+                    }
 
                 })
 
@@ -223,20 +328,20 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
 
     }
 
+    private fun setViewsToEmpty() {
+        productNameTl.editText?.setText("")
+        productDescriptionTl.editText?.setText("")
+        productPriceTl.editText?.setText("")
+        productQrTl.editText?.setText("")
+        productImage.setImageDrawable()
+
+    }
+
     private fun checkMandatoryFields(): Boolean{
         return !productNameTl.editText?.text.isNullOrEmpty() && !productPriceTl.editText?.text.isNullOrEmpty()
     }
 
     private fun scanCode(){
-        /**
-        val intentIntegrator = IntentIntegrator(activity)
-
-        intentIntegrator.setBeepEnabled(false)
-        intentIntegrator.setCameraId(0)
-        intentIntegrator.setPrompt("SCAN")
-        intentIntegrator.setBarcodeImageEnabled(false)
-        intentIntegrator.initiateScan()
-        **/
 
         val dialog = QrScannerDialog()
         dialog.setListener(this)

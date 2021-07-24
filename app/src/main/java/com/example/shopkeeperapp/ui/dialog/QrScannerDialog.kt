@@ -10,7 +10,6 @@ import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
 import com.example.shopkeeperapp.R
-import com.google.android.gms.location.LocationServices
 
 class QrScannerDialog: DialogFragment(){
 
@@ -40,15 +39,11 @@ class QrScannerDialog: DialogFragment(){
             }
 
             builder.setView(view)
-                /** Add action buttons
-                .setPositiveButton("Save",
-                    DialogInterface.OnClickListener { dialog, id ->
 
-                    })
                 .setNegativeButton("Cancel",
                     DialogInterface.OnClickListener { dialog, id ->
                         getDialog()?.cancel()
-                    })**/
+                    })
             builder.create()
 
 

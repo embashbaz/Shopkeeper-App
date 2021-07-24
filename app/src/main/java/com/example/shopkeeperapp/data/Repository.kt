@@ -156,7 +156,7 @@ class Repository(var mRoomDao: RoomDao? = null) {
         mFirebaseDb.collection("shops").document(uId).collection("products").add(shopProduct)
             .addOnSuccessListener {
                 Log.d(ContentValues.TAG, "DocumentSnapshot written")
-                status.put("status", "Success")
+                status.put("status", "success")
                 status.put("value","Record added" )
 
             }
@@ -185,7 +185,10 @@ class Repository(var mRoomDao: RoomDao? = null) {
                 val dataList = ArrayList<ShopProduct>()
                 for (snapshot in it){
 
-                    dataList.add(snapshot.toObject(ShopProduct::class.java))
+                    val docObject = snapshot.toObject(ShopProduct::class.java)
+                    docObject.docId = snapshot.id
+
+                    dataList.add(docObject)
                 }
                 data.value = dataList
 
@@ -194,6 +197,49 @@ class Repository(var mRoomDao: RoomDao? = null) {
             }
 
         return data
+    }
+
+    fun updateShopProduct(uId: String, docId: String, shopProduct: ShopProduct): MutableLiveData<HashMap<String, String>>{
+        val operationOutput = MutableLiveData<HashMap<String, String>>()
+        var status = hashMapOf<String, String>()
+        mFirebaseDb.collection("shops").document(uId).collection("products").document(docId).set(shopProduct)
+            .addOnSuccessListener {
+                Log.d(ContentValues.TAG, "DocumentSnapshot written")
+                status.put("status", "success")
+                status.put("value","Record added" )
+
+            }
+            .addOnFailureListener { e ->
+                Log.w(ContentValues.TAG, "Error adding document", e)
+                status.put("status", "Failed")
+                status.put("value",e.toString() )
+            }
+
+
+
+        return operationOutput
+    }
+
+    fun deleteDocument(uId: String, docId: String): MutableLiveData<HashMap<String, String>>{
+
+        val operationOutput = MutableLiveData<HashMap<String, String>>()
+        var status = hashMapOf<String, String>()
+        mFirebaseDb.collection("shops").document(uId).collection("products").document(docId).delete()
+            .addOnSuccessListener {
+                Log.d(ContentValues.TAG, "DocumentSnapshot written")
+                status.put("status", "Success")
+                status.put("value","Record added" )
+
+            }
+            .addOnFailureListener { e ->
+                Log.w(ContentValues.TAG, "Error adding document", e)
+                status.put("status", "Failed")
+                status.put("value",e.toString() )
+            }
+
+
+
+        return operationOutput
     }
 
 
