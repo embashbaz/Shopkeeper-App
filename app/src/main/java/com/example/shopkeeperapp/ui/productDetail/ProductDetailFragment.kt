@@ -330,7 +330,7 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
         productDescriptionTl.editText?.setText("")
         productPriceTl.editText?.setText("")
         productQrTl.editText?.setText("")
-        productImage.setImageDrawable()
+        productImage.setImageBitmap(null)
 
     }
 

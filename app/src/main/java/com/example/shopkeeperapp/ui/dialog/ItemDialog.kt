@@ -9,10 +9,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import com.example.expenseplanner.R
-import com.example.expenseplanner.data.ItemProduct
-import com.example.expenseplanner.getDate
-import com.example.expenseplanner.ui.cart.CartViewModel
 import com.example.shopkeeperapp.R
 import com.example.shopkeeperapp.data.ItemProduct
 import com.google.android.material.textfield.TextInputLayout
@@ -102,6 +98,7 @@ class ItemDialog(code: Int, itemProduct: ItemProduct?) : DialogFragment() {
                 }else if(mCode == 3){
                     backToOnlineCartDialogListener?.updateItem(itemProduct)
                 }
+                dialog?.dismiss()
 
 
             }
@@ -155,20 +152,21 @@ class ItemDialog(code: Int, itemProduct: ItemProduct?) : DialogFragment() {
     }
 
     private fun deleteData(){
-        if(mCode == 1){
+        if(mCode == 2){
 
         }else if(mCode == 3){
             if (itemProduct != null) {
-                backToOnlineCartDialogListener?.deleItem(itemProduct)
+                backToOnlineCartDialogListener?.deleteItem(itemProduct)
             }
         }
+        dialog?.dismiss()
 
     }
 
     private fun differentCode(){
         if(mCode ==1){
             saveBt.setOnClickListener {
-                saveData()
+               // saveData()
 
             }
 
@@ -211,7 +209,7 @@ class ItemDialog(code: Int, itemProduct: ItemProduct?) : DialogFragment() {
 
     interface BackToOnlineDialogListener{
         fun updateItem(itemProduct: ItemProduct)
-        fun deleItem(itemProduct: ItemProduct)
+        fun deleteItem(itemProduct: ItemProduct)
 
 
     }

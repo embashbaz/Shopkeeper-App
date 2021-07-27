@@ -220,6 +220,27 @@ class Repository(var mRoomDao: RoomDao? = null) {
         return operationOutput
     }
 
+    fun updateOrder(order: Order): MutableLiveData<HashMap<String, String>>{
+        val operationOutput = MutableLiveData<HashMap<String, String>>()
+        var status = hashMapOf<String, String>()
+        mFirebaseDb.collection("shops").document(order.shopId).collection("orders").document(order.id).set(order)
+            .addOnSuccessListener {
+                Log.d(ContentValues.TAG, "DocumentSnapshot written")
+                status.put("status", "success")
+                status.put("value","Record added" )
+
+            }
+            .addOnFailureListener { e ->
+                Log.w(ContentValues.TAG, "Error adding document", e)
+                status.put("status", "Failed")
+                status.put("value",e.toString() )
+            }
+
+
+
+        return operationOutput
+    }
+
     fun getShopOrders(uId:String): MutableLiveData<List<Order>>{
 
         val data = MutableLiveData<List<Order>>()
