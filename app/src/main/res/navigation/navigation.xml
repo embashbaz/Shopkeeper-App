@@ -65,16 +65,11 @@
         android:label="fragment_order_list"
         tools:layout="@layout/fragment_order_list" >
         <action
-            android:id="@+id/action_orderListFragment_to_onlineCartFragment"
-            app:destination="@id/onlineCartFragment" />
+            android:id="@+id/action_orderListFragment_to_onsiteCartFragment"
+            app:destination="@id/onsiteCartFragment" />
     </fragment>
     <fragment
         android:id="@+id/onsiteCartFragment"
-        android:name="com.example.shopkeeperapp.ui.onSiteCart.OnsiteCartFragment"
+        android:name="com.example.shopkeeperapp.ui.onSiteCart.CartFragment"
         android:label="OnsiteCartFragment" />
-    <fragment
-        android:id="@+id/onlineCartFragment"
-        android:name="com.example.shopkeeperapp.ui.onlineCart.OnlineCartFragment"
-        android:label="fragment_online_cart"
-        tools:layout="@layout/fragment_online_cart" />
 </navigation>

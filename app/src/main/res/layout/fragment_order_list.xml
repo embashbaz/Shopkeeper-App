@@ -10,7 +10,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/expense_list_recycler"
+        android:id="@+id/order_list_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,13 +20,13 @@
         tools:listitem="@layout/order_item" />
 
     <TextView
-        android:id="@+id/no_data_expense_list"
+        android:id="@+id/no_data_order_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/expense_list_recycler"
-        app:layout_constraintTop_toTopOf="@+id/expense_list_recycler" />
+        app:layout_constraintStart_toStartOf="@+id/order_list_recycler"
+        app:layout_constraintTop_toTopOf="@+id/order_list_recycler" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

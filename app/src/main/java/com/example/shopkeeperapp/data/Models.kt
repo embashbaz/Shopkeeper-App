@@ -20,8 +20,9 @@ data class ShopKeeper(
 
 )
 
+@Parcelize
 data class Order(
-    val id: String,
+    var id: String,
     val shopId: String,
     val userId: String,
     val shopName: String,
@@ -29,7 +30,7 @@ data class Order(
     val cart: Cart,
     var itemList: List<ItemProduct>,
 
-)
+    ): Parcelable
 
 
 @Parcelize
@@ -49,7 +50,6 @@ data class ShopProduct(
 data class ShopIncome(
     @PrimaryKey(autoGenerate = true)
     val id:Int,
-    val productId: String,
     val incomeName: String,
     val totalPrice: Double,
     val day: Int,

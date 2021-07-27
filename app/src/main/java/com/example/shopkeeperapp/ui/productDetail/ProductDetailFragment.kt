@@ -74,6 +74,19 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
 
     }
 
+    private fun checkDataPassed(){
+        if(passedProduct == null){
+            onViewClickedNewProduct()
+        }
+        else{
+            changeViewsBehaviour()
+            setDataToView()
+            onViewClickedUpdateProduct()
+
+        }
+
+    }
+
     private fun onViewClickedNewProduct(){
         productImage.setOnClickListener{
             // getContent.launch(photoURI)
@@ -97,22 +110,6 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
             openItemsQuantity()
 
         }
-    }
-
-    private fun checkDataPassed(){
-    if(passedProduct == null){
-        onViewClickedNewProduct()
-    }
-        else{
-
-            changeViewsBehaviour()
-            setDataToView()
-            onViewClickedUpdateProduct()
-
-        }
-
-
-
     }
 
     private fun onViewClickedUpdateProduct() {
@@ -346,8 +343,6 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
         val dialog = QrScannerDialog()
         dialog.setListener(this)
         dialog.show(parentFragmentManager, "Scan code")
-
-
 
     }
 

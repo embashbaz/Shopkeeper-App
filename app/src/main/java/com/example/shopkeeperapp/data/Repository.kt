@@ -220,6 +220,33 @@ class Repository(var mRoomDao: RoomDao? = null) {
         return operationOutput
     }
 
+    fun getShopOrders(uId:String): MutableLiveData<List<Order>>{
+
+        val data = MutableLiveData<List<Order>>()
+
+        val productRef = mFirebaseDb.collection("shops").document(uId).collection("orders")
+
+        productRef
+            .get()
+            .addOnSuccessListener {
+
+                val dataList = ArrayList<Order>()
+                for (snapshot in it){
+
+                    val docObject = snapshot.toObject(Order::class.java)
+                    docObject.id = snapshot.id
+
+                    dataList.add(docObject)
+                }
+                data.value = dataList
+
+            }.addOnFailureListener {
+                data.value = emptyList()
+            }
+
+        return data
+    }
+
     fun deleteDocument(uId: String, docId: String): MutableLiveData<HashMap<String, String>>{
 
         val operationOutput = MutableLiveData<HashMap<String, String>>()

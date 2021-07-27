@@ -1,4 +1,4 @@
-package com.example.shopkeeperapp.ui.onSiteCart
+package com.example.shopkeeperapp.ui.onsiteSalesList
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.example.shopkeeperapp.R
 
 
-class OnsiteCartFragment : Fragment() {
+class OnlineCartFragment : Fragment() {
 
 
     override fun onCreateView(
@@ -16,7 +16,7 @@ class OnsiteCartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_onsite_cart, container, false)
+        return inflater.inflate(R.layout.fragment_online_cart, container, false)
     }
 
 }
