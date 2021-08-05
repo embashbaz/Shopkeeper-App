@@ -57,6 +57,14 @@ class Repository(var mRoomDao: RoomDao? = null) {
         return operationOutput
     }
 
+    fun updateUSer(uId: String, token: String){
+
+        mFirebaseDb.collection("shops").document(uId)
+            .update("msgToken", token)
+            .addOnSuccessListener { Log.d("ADDING TOKEN", "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w("ADDING TOKEN", "Error updating document", e) }
+    }
+
 
     fun register(shopKeeper: ShopKeeper, password: String): MutableLiveData<HashMap<String, String>>{
 
@@ -228,17 +236,37 @@ class Repository(var mRoomDao: RoomDao? = null) {
                 Log.d(ContentValues.TAG, "DocumentSnapshot written")
                 status.put("status", "success")
                 status.put("value","Record added" )
+                operationOutput.postValue(status)
 
             }
             .addOnFailureListener { e ->
                 Log.w(ContentValues.TAG, "Error adding document", e)
                 status.put("status", "Failed")
                 status.put("value",e.toString() )
+                operationOutput.postValue(status)
             }
 
 
 
         return operationOutput
+    }
+
+    fun getShop(uId: String): MutableLiveData<ShopKeeper?>{
+        val data = MutableLiveData<ShopKeeper?>()
+
+        val shopRef = mFirebaseDb.collection("shops").document(uId)
+
+        shopRef
+            .get()
+            .addOnSuccessListener {
+
+                data.value = it.toObject(ShopKeeper::class.java)
+
+            }.addOnFailureListener {
+                data.value = null
+            }
+
+        return data
     }
 
     fun getShopOrders(uId:String): MutableLiveData<List<Order>>{
@@ -329,7 +357,7 @@ class Repository(var mRoomDao: RoomDao? = null) {
     }
 
     @WorkerThread
-    suspend fun updateIncme(income: ShopIncome){
+    suspend fun updateIncome(income: ShopIncome){
         roomDao?.updateIncme(income)
     }
 

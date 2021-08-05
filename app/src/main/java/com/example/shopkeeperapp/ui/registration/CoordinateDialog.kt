@@ -103,6 +103,7 @@ class CoordinateDialog() : DialogFragment(){
 
     interface CoordinateDialogListener {
         fun onDialogPositiveClick(latLng: LatLng)
+
     }
 
 

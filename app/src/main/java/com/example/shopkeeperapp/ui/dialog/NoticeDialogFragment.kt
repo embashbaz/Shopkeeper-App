@@ -23,12 +23,15 @@ class NoticeDialogFragment(message: String, positiveText: String) : DialogFragme
                 .setPositiveButton(positiveText,
                     DialogInterface.OnClickListener { dialog, id ->
                         // Send the positive button event back to the host activity
+                        if (listener!= null)
                         listener.onDialogPositiveClick(this)
+                        else
+                            dialog.dismiss()
                     })
                 .setNegativeButton("Cancel",
                     DialogInterface.OnClickListener { dialog, id ->
                         // Send the negative button event back to the host activity
-                        listener.onDialogNegativeClick(this)
+                        dialog.dismiss()
                     })
 
             builder.create()
@@ -40,7 +43,7 @@ class NoticeDialogFragment(message: String, positiveText: String) : DialogFragme
     }
 
     interface NoticeDialogListener {
-        fun onDialogPositiveClick(dialog: DialogFragment)
+        fun onDialogPositiveClick(dialog: DialogFragment){ }
         fun onDialogNegativeClick(dialog: DialogFragment)
     }
 

@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.shopkeeperapp.R
+import com.example.shopkeeperapp.ShopKeeperApp
 import com.example.shopkeeperapp.data.ShopKeeper
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.textfield.TextInputLayout
-
+import com.google.firebase.firestore.GeoPoint
 
 
 class RegisterFragment : Fragment(), CoordinateDialog.CoordinateDialogListener {
@@ -34,6 +36,7 @@ class RegisterFragment : Fragment(), CoordinateDialog.CoordinateDialogListener {
         ViewModelProvider(this).get(RegistrationViewModel::class.java)
     }
 
+    val uId : String by lazy {  ( activity?.application as ShopKeeperApp).uId }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +45,11 @@ class RegisterFragment : Fragment(), CoordinateDialog.CoordinateDialogListener {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_register, container, false)
         setViews(view)
+
+        if (arguments != null){
+            disableViews()
+            setData()
+        }
 
         registerBt.setOnClickListener{
             saveNewUser()
@@ -55,6 +63,35 @@ class RegisterFragment : Fragment(), CoordinateDialog.CoordinateDialogListener {
         return view
     }
 
+    private fun setData() {
+
+        registrationViewModel.getUserData(uId).observe(viewLifecycleOwner, Observer {
+            if(it != null){
+                nameTl.editText?.setText(it.name)
+                emailTl.editText?.setText(it.email)
+                phoneNumberTl.editText?.setText(it.phoneNumber.toString())
+                passwordTl.editText?.setText("N/A")
+                descriptionTl.editText?.setText(it.more)
+                businessAreaTl.editText?.setText(it.buisinessArea)
+                cityTl.editText?.setText(it.county)
+            }
+
+        })
+
+    }
+
+    private fun disableViews() {
+        nameTl.isEnabled = false
+        emailTl.isEnabled = false
+        phoneNumberTl.isEnabled = false
+        passwordTl.isEnabled = false
+        confirmPasswordTl.visibility = View.INVISIBLE
+        descriptionTl.isEnabled = false
+        businessAreaTl.isEnabled = false
+        cityTl.isEnabled = false
+        getCordinateTxt.isEnabled = false
+        registerBt.visibility = View.INVISIBLE
+    }
 
 
     fun setViews(view: View){
@@ -83,8 +120,9 @@ class RegisterFragment : Fragment(), CoordinateDialog.CoordinateDialogListener {
                || !cityTl.editText?.text.isNullOrEmpty()){
             if(passwordTl.editText?.text.toString() == confirmPasswordTl.editText?.text.toString()){
                     if(!latLng.equals(0.0)){
+                        val geo= GeoPoint(latLng.latitude, latLng.longitude)
                         val shopKeeper = ShopKeeper("",emailTl.editText?.text.toString(),nameTl.editText?.text.toString(),
-                            latLng,phoneNumberTl.editText?.text.toString().toLong(),
+                            geo,phoneNumberTl.editText?.text.toString().toLong(),
                           businessAreaTl.editText?.text.toString(), cityTl.editText?.text.toString(), descriptionTl.editText?.text.toString() )
 
                         registrationViewModel.signUp(shopKeeper, passwordTl.editText?.text.toString())

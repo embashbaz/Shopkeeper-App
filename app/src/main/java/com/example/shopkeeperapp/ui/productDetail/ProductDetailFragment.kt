@@ -65,6 +65,9 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
     ): View? {
         val view = inflater.inflate(R.layout.fragment_product_detail, container, false)
         bindViews(view)
+        if(arguments?.getParcelable<ShopProduct>("product")!= null)
+            passedProduct = requireArguments().getParcelable("product")
+
         checkDataPassed()
 
 

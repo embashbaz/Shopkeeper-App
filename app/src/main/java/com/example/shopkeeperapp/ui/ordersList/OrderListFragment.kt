@@ -37,7 +37,7 @@ class OrderListFragment : Fragment() {
         orderListRecyclerView = view.findViewById(R.id.order_list_recycler)
         noDataTxt = view.findViewById(R.id.no_data_order_list)
 
-        noDataTxt = view.findViewById(R.id.no_data_txt)
+        noDataTxt = view.findViewById(R.id.no_data_order_list)
 
 
         orderListAdapter = OrderListAdapter { order -> seeCart(order) }
@@ -68,7 +68,7 @@ class OrderListFragment : Fragment() {
         bundle.putInt("order_code", 3)
         bundle.putParcelable("order", order)
 
-        this.findNavController().navigate(R.id.action_orderListFragment_to_onsiteCartFragment, bundle)
+        this.findNavController().navigate(R.id.action_orderListFragment_to_onlineCartFragment, bundle)
 
     }
 

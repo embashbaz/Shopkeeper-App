@@ -8,20 +8,25 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shopkeeperapp.R
+import com.example.shopkeeperapp.*
 import com.example.shopkeeperapp.data.Cart
 import com.example.shopkeeperapp.data.ItemProduct
 import com.example.shopkeeperapp.data.Order
+import com.example.shopkeeperapp.data.ShopIncome
 import com.example.shopkeeperapp.ui.dialog.ItemDialog
+import com.example.shopkeeperapp.ui.dialog.NoticeDialogFragment
 import com.example.shopkeeperapp.ui.ordersList.OrderListViewModel
 import com.example.shopkeeperapp.ui.other.CartListAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.util.*
+import kotlin.collections.ArrayList
 
 
-class OnlineCartFragment : Fragment(), ItemDialog.BackToOnlineDialogListener {
+class OnlineCartFragment : Fragment(), ItemDialog.BackToOnlineDialogListener, NoticeDialogFragment.NoticeDialogListener {
 
     lateinit var dateCreated: TextView
     lateinit var statusCart: TextView
@@ -46,39 +51,61 @@ class OnlineCartFragment : Fragment(), ItemDialog.BackToOnlineDialogListener {
         initView(view)
         if(arguments?.getParcelable<Order>("order") != null)
             order = arguments?.getParcelable("order")!!
-        setCheckoutButtonBehaviour()
+        checkoutBtOnline.setOnClickListener {
+            setCheckoutButtonBehaviour()
+        }
 
         setData()
-
-
-
-
-
         return view
     }
 
     fun setCheckoutButtonBehaviour(){
-        if(order.cart.status == 4){
+        if(order.cart?.status == 4){
             checkoutBtOnline.text = "UPDATE"
             checkoutBtOnline.setOnClickListener{
                 onlineCartViewModel.updateOrder(order)
             }
         }
-
-
+       // onlineCartViewModel.updatingOrderOutput.observe(viewLifecycleOwner, {
+      //      Toast.makeText(activity, it["status"] +" with value "+ it["value"], Toast.LENGTH_SHORT).show()
+      //  })
+        order.cart!!.status = 9
+        onlineCartViewModel.updateOrder(order)
         onlineCartViewModel.updatingOrderOutput.observe(viewLifecycleOwner, {
-            Toast.makeText(activity, it["status"] +" with value "+ it["value"], Toast.LENGTH_SHORT).show()
+               if (it["status"] == "success"){
+                   saveDateToDb()
+                  val dialog = NoticeDialogFragment("Order has been updated", "order Confirmed")
+                  dialog.setListener(this)
+                   dialog.show(parentFragmentManager, "order Confirmed")
+                   checkoutBtOnline.isEnabled = false }
 
-        })
+             })
+
 
 
 
     }
 
+    fun saveDateToDb(){
+
+        var incomes =  ArrayList<ShopIncome> ()
+
+        for (item in order.itemList!!){
+            val income = ShopIncome(0, item.name, item.totalPriceNum, getDay(), getMonth(), getYear())
+            incomes.add(income)
+        }
+
+
+
+
+
+    }
+
+
     private fun setData() {
-        if(!order.itemList.isEmpty()){
+        if(!order.itemList?.isEmpty()!!){
             cartAdapter.setData(order.itemList as ArrayList<ItemProduct>)
-            calculateToatal(order.itemList)
+            calculateTotal(order.itemList as ArrayList<ItemProduct>)
             recyclerCart.visibility = View.VISIBLE
             noData.visibility = View.INVISIBLE
         }else{
@@ -87,8 +114,8 @@ class OnlineCartFragment : Fragment(), ItemDialog.BackToOnlineDialogListener {
         }
 
 
-    dateCreated.text = order.cart.dateCreated
-    statusCart.text = order.cart.status.toString()
+    dateCreated.text = order.cart?.dateCreated
+    statusCart.text = order.cart?.status?.let { showStatusValue(it) }
     recyclerCart.layoutManager = LinearLayoutManager(activity)
     recyclerCart.adapter = cartAdapter
     }
@@ -108,9 +135,16 @@ class OnlineCartFragment : Fragment(), ItemDialog.BackToOnlineDialogListener {
 
     private fun itemDetail(itemProduct: ItemProduct) {
 
+      //  val itemDialog = ItemDialog(3,itemProduct)
+      //  itemDialog.setListener(this)
+       // itemDialog.show(parentFragmentManager, "Update product")
+        Toast.makeText(activity, "Item", Toast.LENGTH_SHORT).show()
+
     }
 
-    private fun calculateToatal(it: List<ItemProduct>) {
+
+
+    private fun calculateTotal(it: List<ItemProduct>) {
         var sum = 0.0
         for(item in it ){
             sum = sum + item.totalPriceNum
@@ -118,19 +152,19 @@ class OnlineCartFragment : Fragment(), ItemDialog.BackToOnlineDialogListener {
         }
 
         totalCart.text = "ksh"+sum
-        order.cart.totalPrice = sum
+        order.cart?.totalPrice = sum
     }
 
     override fun updateItem(mItemProduct: ItemProduct) {
         var items: MutableList<ItemProduct> = order.itemList as MutableList<ItemProduct>
-        items[getItemImpl(order.itemList, mItemProduct)] = mItemProduct
+        items[order!!.itemList?.let { getItemImpl(it, mItemProduct) }!!] = mItemProduct
         order.itemList = items
-        order.cart.status = 4
+        order.cart?.status  = 4
     }
 
     override fun deleteItem(itemProduct: ItemProduct) {
-        order.itemList.drop(getItemImpl(order.itemList, itemProduct))
-        order.cart.status = 4
+        order!!.itemList?.let { getItemImpl(it, itemProduct) }?.let { order.itemList!!.drop(it) }
+        order.cart?.status  = 4
     }
 
     private fun getItemImpl(list: List<ItemProduct>, item: ItemProduct): Int {
@@ -139,6 +173,10 @@ class OnlineCartFragment : Fragment(), ItemDialog.BackToOnlineDialogListener {
                 return index
         }
         return -1
+    }
+
+    override fun onDialogNegativeClick(dialog: DialogFragment) {
+        dialog.dismiss()
     }
 
 }

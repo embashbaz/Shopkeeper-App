@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopkeeperapp.R
 import com.example.shopkeeperapp.data.Order
+import com.example.shopkeeperapp.showStatusValue
 
 class OrderListAdapter (onClick: (Order) -> Unit): RecyclerView.Adapter<OrderListAdapter.ViewHolder>() {
 
@@ -54,9 +55,10 @@ class OrderListAdapter (onClick: (Order) -> Unit): RecyclerView.Adapter<OrderLis
             val cartStatus = itemView.findViewById<TextView>(R.id.status_expense_list)
             val cartTotalprice = itemView.findViewById<TextView>(R.id.price_expense_list)
 
-            cartPersonName.setText(item.userName.toString())
-            cartStatus.setText(item.cart.status.toString())
-            cartTotalprice.setText(item.cart.totalPrice.toString())
+            cartPersonName.setText(item.userName)
+            cartStatus.setText(item.cart?.status?.let { showStatusValue(it) })
+            cartTotalprice.setText(item.cart?.totalPrice.toString())
+            cardDateCreated.setText(item.cart?.dateCreated)
 
 
         }

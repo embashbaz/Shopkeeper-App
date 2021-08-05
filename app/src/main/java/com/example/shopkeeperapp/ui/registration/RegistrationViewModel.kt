@@ -16,17 +16,15 @@ class RegistrationViewModel : ViewModel() {
     val registrationOutput: LiveData<HashMap<String, String>>
         get() = _registrationOutput
 
+    fun getUserData(uId: String): MutableLiveData<ShopKeeper?>{
+       return repository.getShop(uId)
+    }
 
-    var latLng : LatLng = LatLng(0.0, 0.0)
 
 
     fun signUp (mShopKeeper: ShopKeeper, password: String){
         _registrationOutput = repository.register(mShopKeeper, password)
     }
 
-    fun passLatLng(passedLatLng: LatLng){
-        latLng = passedLatLng
-
-    }
 
 }

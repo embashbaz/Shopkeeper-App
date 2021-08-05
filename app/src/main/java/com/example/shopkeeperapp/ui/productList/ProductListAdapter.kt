@@ -59,7 +59,7 @@ class ProductListAdapter (onClick: (ShopProduct) -> Unit): RecyclerView.Adapter<
 
             productNameTxt.text = item.productName
             qrCodeTxt.text = item.productQrCode.toString()
-            numberOfProductTxt.text = item.productQrCode.toString()
+            numberOfProductTxt.text = item.itemQuantity.toString()
             priceTxt.text = item.price.toString()
             if(!item.imageUrl.isNullOrEmpty())
             Glide.with(itemView).load(item.imageUrl).apply(RequestOptions.circleCropTransform()).into(productImage)
