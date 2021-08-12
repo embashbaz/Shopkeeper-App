@@ -78,9 +78,12 @@ class CoordinateDialog() : DialogFragment(){
             // for ActivityCompat#requestPermissions for more details.
             return
         }
+
         fusedLocation.lastLocation.addOnSuccessListener {
-            lantitudeTl.editText?.setText(it.latitude.toString())
-            longitudeTl.editText?.setText(it.longitude.toString())
+            if(it!=null) {
+                lantitudeTl.editText?.setText(it.latitude.toString())
+                longitudeTl.editText?.setText(it.longitude.toString())
+            }
 
         }
     }

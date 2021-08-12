@@ -166,12 +166,14 @@ class Repository(var mRoomDao: RoomDao? = null) {
                 Log.d(ContentValues.TAG, "DocumentSnapshot written")
                 status.put("status", "success")
                 status.put("value","Record added" )
+                operationOutput.postValue(status)
 
             }
             .addOnFailureListener { e ->
                 Log.w(ContentValues.TAG, "Error adding document", e)
-                status.put("status", "Failed")
+                status.put("status", "failed")
                 status.put("value",e.toString() )
+                operationOutput.postValue(status)
             }
 
         operationOutput.postValue(status)
@@ -215,12 +217,14 @@ class Repository(var mRoomDao: RoomDao? = null) {
                 Log.d(ContentValues.TAG, "DocumentSnapshot written")
                 status.put("status", "success")
                 status.put("value","Record added" )
+                operationOutput.postValue(status)
 
             }
             .addOnFailureListener { e ->
                 Log.w(ContentValues.TAG, "Error adding document", e)
-                status.put("status", "Failed")
+                status.put("status", "failed")
                 status.put("value",e.toString() )
+                operationOutput.postValue(status)
             }
 
 
@@ -267,6 +271,10 @@ class Repository(var mRoomDao: RoomDao? = null) {
             }
 
         return data
+    }
+
+    fun logOut(){
+        mFirebaseAuth.signOut()
     }
 
     fun getShopOrders(uId:String): MutableLiveData<List<Order>>{
@@ -318,6 +326,9 @@ class Repository(var mRoomDao: RoomDao? = null) {
         return operationOutput
     }
 
+    fun getMostSoldItems(month: Int): LiveData<List<MostProductSold>>? {
+        return roomDao?.getMostSoldItems(month)
+    }
 
 
     @WorkerThread
@@ -337,7 +348,7 @@ class Repository(var mRoomDao: RoomDao? = null) {
     }
 
     @WorkerThread
-    suspend fun insertIncome(income: ShopIncome){
+    suspend fun insertIncome(income: ArrayList<ShopIncome>){
         roomDao?.insertIncome(income)
     }
 

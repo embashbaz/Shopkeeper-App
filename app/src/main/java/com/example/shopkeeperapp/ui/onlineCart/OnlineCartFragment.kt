@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,8 +39,8 @@ class OnlineCartFragment : Fragment(), ItemDialog.BackToOnlineDialogListener, No
     lateinit var cartAdapter: CartListAdapter
     lateinit var order: Order
 
-    val onlineCartViewModel: OnlineCartViewModel by lazy {
-        ViewModelProvider(this).get(OnlineCartViewModel ::class.java)
+    val onlineCartViewModel: OnlineCartViewModel by viewModels{
+        OnlineViewModelFactory((activity?.application as ShopKeeperApp).repository)
     }
 
     override fun onCreateView(
@@ -94,6 +95,8 @@ class OnlineCartFragment : Fragment(), ItemDialog.BackToOnlineDialogListener, No
             val income = ShopIncome(0, item.name, item.totalPriceNum, getDay(), getMonth(), getYear())
             incomes.add(income)
         }
+
+        onlineCartViewModel.addItemsToCart(incomes)
 
 
 

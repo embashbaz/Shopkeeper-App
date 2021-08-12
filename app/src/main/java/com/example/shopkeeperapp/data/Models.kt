@@ -9,15 +9,14 @@ import kotlinx.android.parcel.Parcelize
 
 
 data class ShopKeeper(
-    var id: String,
-    val email: String,
-    val name: String,
-    val address: GeoPoint,
-    val phoneNumber: Long,
-    val buisinessArea: String,
-    val county: String,
-    val more: String,
-    var msgToken : String = ""
+    var id: String ="",
+    var email: String ="",
+    var name: String ="",
+    var address: GeoPoint? = null,
+    var phoneNumber: Long = 0L,
+    var buisinessArea: String ="",
+    var county: String ="",
+    var more: String ="",
 
 )
 
@@ -101,3 +100,8 @@ data class ItemProduct(
 
 
 ): Parcelable
+
+data class MostProductSold(
+    var incomeName: String ="",
+    var count: Int = 0
+)

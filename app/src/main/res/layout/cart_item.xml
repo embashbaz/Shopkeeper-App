@@ -15,7 +15,7 @@
         android:layout_height="wrap_content">
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/view_status"
             android:layout_width="8dp"
             android:layout_height="0dp"
             android:background="@color/purple_700"
@@ -34,7 +34,7 @@
             android:textColor="@color/black"
             android:textSize="12sp"
             android:textStyle="normal"
-            app:layout_constraintStart_toEndOf="@+id/view"
+            app:layout_constraintStart_toEndOf="@+id/view_status"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -49,7 +49,7 @@
             android:textColor="#5C5353"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/view"
+            app:layout_constraintStart_toEndOf="@+id/view_status"
             app:layout_constraintTop_toBottomOf="@+id/item_name_list" />
 
         <TextView

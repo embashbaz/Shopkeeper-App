@@ -1,13 +1,14 @@
 package com.example.shopkeeperapp.ui.landin
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.navigation.fragment.findNavController
 import com.example.shopkeeperapp.R
+import com.example.shopkeeperapp.ShopKeeperApp
+import com.example.shopkeeperapp.data.Repository
+import com.google.firebase.auth.FirebaseAuth
 
 class LandInFragment : Fragment() {
 
@@ -20,6 +21,8 @@ class LandInFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
+        setHasOptionsMenu(true)
 
         val view = inflater.inflate(R.layout.fragment_land_in, container, false)
 
@@ -41,10 +44,34 @@ class LandInFragment : Fragment() {
             this.findNavController().navigate(R.id.action_landInFragment_to_registerFragment, bundle)
         }
 
+        view.findViewById<CardView>(R.id.go_to_performance).setOnClickListener{
+
+            this.findNavController().navigate(R.id.action_landInFragment_to_performanceFragment)
+        }
+
 
 
         return  view
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        // super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.landin_menu, menu)
+
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if(item.itemId == R.id.logout_menu){
+            val repository = Repository()
+            repository.logOut()
+            (activity?.application as ShopKeeperApp).uId = ""
+            this.findNavController().navigateUp()
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
 }

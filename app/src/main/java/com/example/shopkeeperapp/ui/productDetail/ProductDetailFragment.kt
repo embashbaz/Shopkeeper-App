@@ -299,10 +299,14 @@ class ProductDetailFragment : Fragment(), NoticeDialogFragment.NoticeDialogListe
     private fun saveNewProduct(){
         if (checkMandatoryFields()) {
             if (uploadingImage) {
+
+                var codeQ = 0L
+                if(!productQrTl.editText?.text.toString().isNullOrEmpty())
+                    codeQ = productQrTl.editText?.text.toString().toLong()
                 val shopProduct = ShopProduct(
                     "",
                     productNameTl.editText?.text.toString(),
-                    productQrTl.editText?.text.toString().toLong(),
+                    codeQ,
                     productPriceTl.editText?.text.toString().toDouble(),
                     numberItems,
                     imageUrl,

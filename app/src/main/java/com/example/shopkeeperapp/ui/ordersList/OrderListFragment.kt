@@ -45,7 +45,14 @@ class OrderListFragment : Fragment() {
         orderListViewModel.getOrderShopProduct(uId)
         orderListViewModel.orderListProduct.observe(viewLifecycleOwner, {
             if(!it.isEmpty()){
-                orderListAdapter.setData(it as ArrayList<Order>)
+
+                val orders = it as ArrayList
+                orders.sortWith{ lhs, rhs ->
+                    // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                    if (lhs.cart?.status!! < rhs.cart!!.status) -1 else if (lhs.cart!!.status > rhs.cart!!.status) 1 else 0
+                }
+                orderListAdapter.setData(orders)
+                orderListAdapter.notifyDataSetChanged()
                 orderListRecyclerView.visibility = View.VISIBLE
                 noDataTxt.visibility = View.INVISIBLE
             }else{

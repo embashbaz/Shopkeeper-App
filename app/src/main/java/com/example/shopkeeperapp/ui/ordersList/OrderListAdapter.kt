@@ -1,5 +1,6 @@
 package com.example.shopkeeperapp.ui.ordersList
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,11 +55,19 @@ class OrderListAdapter (onClick: (Order) -> Unit): RecyclerView.Adapter<OrderLis
             val cardDateCreated = itemView.findViewById<TextView>(R.id.date_created_txt)
             val cartStatus = itemView.findViewById<TextView>(R.id.status_expense_list)
             val cartTotalprice = itemView.findViewById<TextView>(R.id.price_expense_list)
+            val viewStats = itemView.findViewById<View>(R.id.view_status)
 
             cartPersonName.setText(item.userName)
             cartStatus.setText(item.cart?.status?.let { showStatusValue(it) })
             cartTotalprice.setText(item.cart?.totalPrice.toString())
             cardDateCreated.setText(item.cart?.dateCreated)
+
+            if(item.cart?.status != 9){
+               // cartStatus.setTextColor(Color.RED)
+                viewStats.setBackgroundColor(Color.YELLOW)
+            }else{
+                viewStats.setBackgroundColor(Color.GREEN)
+            }
 
 
         }

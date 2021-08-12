@@ -17,7 +17,7 @@ interface RoomDao {
     suspend fun insertExpenduture(expenditure: Expenditure)
 
     @Insert
-    suspend fun insertIncome(income: ShopIncome)
+    suspend fun insertIncome(income: kotlin.collections.ArrayList<com.example.shopkeeperapp.data.ShopIncome>)
 
     @Update
     suspend fun updateCart(cart: Cart)
@@ -45,6 +45,9 @@ interface RoomDao {
 
     @Query("DELETE FROM Itemproduct WHERE cartId =:id")
     suspend fun deleteAllItemForCart(id: Int)
+
+    @Query("SELECT incomeName, COUNT(*) as count FROM ShopIncome WHERE month = :month GROUP BY incomeName LIMIT 10")
+    fun getMostSoldItems(month: Int): LiveData<List<MostProductSold>>
 
 
 

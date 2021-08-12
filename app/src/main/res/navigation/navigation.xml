@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_landInFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_landInFragment_to_performanceFragment"
+            app:destination="@id/performanceFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -80,4 +83,9 @@
         android:name="com.example.shopkeeperapp.ui.onlineCart.OnlineCartFragment"
         android:label="fragment_online_cart"
         tools:layout="@layout/fragment_online_cart" />
+    <fragment
+        android:id="@+id/performanceFragment"
+        android:name="com.example.shopkeeperapp.ui.Performance.PerformanceFragment"
+        android:label="fragment_performance"
+        tools:layout="@layout/fragment_performance" />
 </navigation>
